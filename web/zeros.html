@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="index.css">
+
+    <!-- chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <!-- -->
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <!-- -->
+
+    <title>Numerical Analysis</title>
+</head>
+<body>
+    <div class="container-fluid bg-secondary">
+        <div class="row bg-dark">
+            <div class="col-12">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                  <a class="navbar-brand" href="index.html"><span class="display-5">Numerical Analysis</span></a>
+                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                      <li class="nav-item active mx-3">
+                        <a class="nav-link" href="#">Find Zeroes<span class="sr-only">(current)</span></a>
+                      </li>
+                      <li class="nav-item mx-3">
+                        <a class="nav-link" href="#">linear equations<span class="sr-only">(current)</span></a>
+                      </li>
+                      <li class="nav-item mx-3">
+                        <a class="nav-link" href="#">Integration<span class="sr-only">(current)</span></a>
+                      </li>
+                      <li class="nav-item mx-3">
+                        <a class="nav-link" href="#">Differentiation<span class="sr-only">(current)</span></a>
+                      </li>
+                      <li class="nav-item mx-3">
+                        <a class="nav-link" href="#">Differential equations<span class="sr-only">(current)</span></a>
+                      </li>
+                    </ul>
+                  </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="row text-center m-5">
+        <div class="col-lg-3 bg-dark text-light m-1 py-2">
+            <span class="text-center font-weight-bold">Options</span>
+            <hr class="bg-light mt-1">
+            <form class="p-2">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label text-left">f(x)</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" placeholder="x^2 - sin(x) + 7 - e^x" id="f">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-6 col-form-label text-left">Initial interval</label>
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control" id="inputPassword">
+                    </div>
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control" id="inputPassword">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label text-left">Method</label>
+                    <div class="col-sm-8">
+                        <select class="custom-select">
+                          <option value="1"> Bisection </option>
+                          <option value="2"> Regular Falsi </option>
+                          <option value="3"> Secant </option>
+                          <option value="4" selected> Newton-Raphson </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label text-left">
+                        Tol (<span class="text-light valueSpan2"></span>)
+                    </label>
+                    <div class="col-sm-10 my-auto p-0 mx-0">
+                        <input type="range" id="customRange11" min="0.001" max="0.1" step="0.001">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label text-left">Stopping criteria</label>
+                    <div class="col-sm-8">
+                        <select class="custom-select">
+                          <option value="1" selected> Absolute </option>
+                          <option value="2"> Relative </option>
+                          <option value="3"> Function </option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="submit">Find</button>
+            </form>
+        </div>
+        <div class="col-lg-8 bg-light m-1">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- script to run chart.js -->
+    <script src="zeros.js"></script>
+    <!-- -->
+</body>
+</html>
