@@ -57,7 +57,7 @@ $("#params").submit(function(e) {
     var url = form.attr('action');
     $.ajax({
            type: "POST",
-           url: 'http://127.0.0.1:5000/zeros',
+           url: 'na-bits.herokuapp.com',
            data: form.serialize(), // serializes the form's elements.
            success: function(response) {
                if (response['error']) {

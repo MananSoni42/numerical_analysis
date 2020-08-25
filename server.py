@@ -1,10 +1,10 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS, cross_origin
+#from flask_cors import CORS, cross_origin
 from utils.zeroes import find_zeroes
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'the quick brown fox jumps over the lazy   dog'
-cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+app.config['SECRET_KEY'] = 'The answer is 42'
+#cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 def send_request(ans=[], tol=0.1, error=False, message=''):
     if not ans:
@@ -19,8 +19,11 @@ def send_request(ans=[], tol=0.1, error=False, message=''):
         'ord_conv': ans.approx_convergence(),
     }
 
+@app.route('/')
+def hello():
+    return "Hello! this is an API, to use the app: go to https://manansoni42.github.io/numerical_analysis/web/zeros.html"
+
 @app.route('/zeros', methods=['POST'])
-@cross_origin()
 def zeros():
 
     try:
@@ -45,4 +48,4 @@ def zeros():
     return send_request(ans)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
