@@ -15,10 +15,10 @@ def send_request(ans=[], tol=0.1, error=False, message=''):
     return {
         'error': error, 'err_message': message,
         'f': ans.tabular_f(), 'sols': [{'x': x, 'y': ans.f(x)} for x in ans.sols],
-        'sol': ans.sol,
+        'sol': round(ans.sol, 5),
         'tol': ans.tol,
         'num_iter': ans.num_iter,
-        'ord_conv': ans.approx_convergence(),
+        'ord_conv': max(0, ans.approx_convergence()),
     }
 
 @app.route('/')

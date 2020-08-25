@@ -81,7 +81,7 @@
                     <div class="col-sm-8">
                         <select class="custom-select" id="method" name="method">
                           <option value="bisection"> Bisection </option>
-                          <option value="reg-falsi"> Regular Falsi </option>
+                          <option value="regula-falsi"> Regular Falsi </option>
                           <option value="secant"> Secant </option>
                           <option value="newton" selected> Newton-Raphson </option>
                         </select>
@@ -123,15 +123,15 @@
 
     <div class="row text-center bg-dark text-light mx-5">
         <div class="col-12">
-            <div class="row">
-                <div class="col-12">
-                    <span class="display-4">Solution</span>
+            <div class="row mb-0">
+                <div class="col-12 my-auto">
+                    <span>Solution</span>
                 </div>
             </div>
-            <hr class="bg-light">
+            <hr class="bg-light mt-0">
             <div class="row">
                 <div class="col-4">
-                    x = <span id="sol_ans" class="text-warning">1.0000000706348295</span> $\pm$ <span id="sol_tol">0.001</span>
+                    x = <span id="sol_ans" class="text-warning">1.00000</span> $\pm$ <span id="sol_tol">0.001</span>
                 </div>
                 <div class="col-4">
                     Reached in <span id="sol_itr" class="text-warning">6</span> iterations
