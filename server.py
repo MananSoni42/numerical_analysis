@@ -1,10 +1,12 @@
 from flask import Flask, request, jsonify
-#from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 from utils.zeroes import find_zeroes
+import warnings
 
+warnings.filterwarnings('ignore')
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'The answer is 42'
-#cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+CORS(app)
 
 def send_request(ans=[], tol=0.1, error=False, message=''):
     if not ans:
