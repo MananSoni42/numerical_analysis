@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template, redirect
 from flask_cors import CORS
 from utils.zeroes import find_zeroes
 import warnings
@@ -14,7 +14,7 @@ def send_request(ans=[], tol=0.1, error=False, message=''):
 
     return {
         'error': error, 'err_message': message,
-        'f': ans.tabular_f(), 'sols': [{'x': x, 'y': ans.f(x)} for x in ans.sols],
+        'f': ans.tabular_f(), 'sols': [{'n': n+1, 'x': x, 'y': ans.f(x)} for n,x in enumerate(ans.sols)],
         'sol': round(ans.sol, 5),
         'tol': ans.tol,
         'num_iter': ans.num_iter,
@@ -22,11 +22,15 @@ def send_request(ans=[], tol=0.1, error=False, message=''):
     }
 
 @app.route('/')
-def hello():
-    return "Hello! this is an API, to use the app: go to https://manansoni42.github.io/numerical_analysis/web/zeros.html"
+def home():
+    return render_template('index.html')
 
-@app.route('/zeros', methods=['POST'])
-def zeros():
+@app.route('/zeroes')
+def zeroes():
+    return render_template('zeroes.html')
+
+@app.route('/api/zeroes', methods=['POST'])
+def find_zeros():
 
     try:
         f = request.form['f']
