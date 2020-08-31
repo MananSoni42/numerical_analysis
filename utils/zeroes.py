@@ -11,10 +11,11 @@ class find_zeroes(object):
         * Bisection(a,b)
         * Secant(a,b)
     """
-    def __init__(self,f_expr, max_iter=50):
-        self.max_iter = max_iter
-        self.sols = []
+    def __init__(self,f_expr, max_iter=100):
+        self.max_iter = max_iter - 1
+        self.sols = [0]
         self.f_raw = parser.parse(f_expr)
+        self.tol = 0.1
 
     @property
     def sol(self):
@@ -29,6 +30,11 @@ class find_zeroes(object):
 
     def f_(self, x, eps=pow(10,-4)):
         return (self.f(x+eps) - self.f(x-eps)) / (2*eps)
+
+    def tabular_f(self, num=50):
+        M = np.max(np.abs(self.sols)) + 1
+        xs = np.linspace(-M,M,num)
+        return [{'x': x, 'y': self.f(x)} for x in xs]
 
     def stop(self, x_prev, x_curr, tol, method):
         """
@@ -114,14 +120,17 @@ class find_zeroes(object):
         if not self.f(a)*self.f(b) < 0:
             raise Exception(f'f({a})*f({b}) > 0')
 
-        while not self.stop(a, b, tol, stopmethod):
+        x_prev = a
+        x = b
+        while not self.stop(x_prev,x, tol, stopmethod):
+            x_prev = x
             x = (a*self.f(b) - b*self.f(a))/(self.f(b)-self.f(a))
             self.sols.append(x)
-
-            if self.f(a)*self.f(x) < 0:
-                b = x
-            else:
+            print(a,x,b)
+            if self.f(a)*self.f(x) > 0:
                 a = x
+            else:
+                b = x
 
     def secant(self, x0, x1, tol, stopmethod):
         """
@@ -172,37 +181,32 @@ class find_zeroes(object):
         with the correct initial parameters
         """
         self.sols = []
+        self.tol = tol
 
         if method.lower() == 'bisection':
             try:
-                a,b = initial.split(',')
-                a = float(a)
-                b = float(b)
+                a,b = initial
             except:
                 raise Exception('Invalid initial data. Expected a,b')
             self.bisection(a, b, tol, stopmethod)
 
         elif method.lower() == 'regula-falsi':
             try:
-                a,b = initial.split(',')
-                a = float(a)
-                b = float(b)
+                a,b = initial
             except:
                 raise Exception('Invalid initial data. Expected a,b')
             self.regula_falsi(a, b, tol, stopmethod)
 
         elif method.lower() == 'secant':
             try:
-                x0,x1 = initial.split(',')
-                x0 = float(x0)
-                x1 = float(x1)
+                x0,x1 = initial
             except:
                 raise Exception('Invalid initial data. Expected x0,x1')
             self.secant(x0, x1, tol, stopmethod)
 
         elif method.lower() == 'newton':
             try:
-                x0 = float(initial)
+                x0 = initial[0]
             except:
                 raise Exception('Invalid initial data. Expected x0')
             self.newton(x0, tol, stopmethod)
@@ -210,11 +214,11 @@ class find_zeroes(object):
             raise Exception(f'Method "{method.lower()}" not found')
 
         if self.diverges():
-            print(f'Answer ({self.sol}) did not converge in {self.num_iter} iterations')
+            #print(f'Answer ({self.sol}) did not converge in {self.num_iter} iterations')
             return None
 
-        print(f'Answer is {self.sol} +- tol reached in {self.num_iter} iterations')
-        print(f'Approximate Degree of Convergence: {self.approx_convergence()}')
+        #print(f'Answer is {self.sol} +- tol reached in {self.num_iter} iterations')
+        #print(f'Approximate Degree of Convergence: {self.approx_convergence()}')
 
     def approx_convergence(self):
         """
@@ -224,12 +228,15 @@ class find_zeroes(object):
         log(e_(n+1)) = p*log(e^n) + log(C)
         """
 
-        x = np.log(np.abs(np.array(self.sols)-self.sol)) # Take log of errors
-        x = x[np.isfinite(x)] # remove nans and infs
-        y = x[1:]
-        x = x[:-1]
-        m,c = np.polyfit(x,y,deg=1) # Fit a linear polynomial
-        return round(m,3) # return the slope i.e 'p'
+        try:
+            x = np.log(np.abs(np.array(self.sols) - self.sol)) # Take log of errors
+            x = x[np.isfinite(x)] # remove nans and infs
+            y = x[1:]
+            x = x[:-1]
+            m,c = np.polyfit(x,y,deg=1) # Fit a linear polynomial
+            return round(m,3) # return the slope i.e 'p'
+        except:
+            return 0
 
     def diverges(self):
         """
