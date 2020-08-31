@@ -1,6 +1,8 @@
 # Numerical Analysis
 This repository contains visualizations for the course Numerical Analysis (MATH F313) at BITS Pilani. The aim of this Repository is to provide useful visualizations so that students (like me!) can better understand the course material.
 
+> This content can also be accessed on the web. Please visit [na-bits.herokuapp.com](http://na-bits.herokuapp.com/) for the live version!
+
 ## Usage
 ### 1. Finding zeroes
 Use this module to find zeroes for any function you like!  
