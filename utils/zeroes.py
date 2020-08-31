@@ -11,8 +11,8 @@ class find_zeroes(object):
         * Bisection(a,b)
         * Secant(a,b)
     """
-    def __init__(self,f_expr, max_iter=50):
-        self.max_iter = max_iter
+    def __init__(self,f_expr, max_iter=100):
+        self.max_iter = max_iter - 1
         self.sols = [0]
         self.f_raw = parser.parse(f_expr)
         self.tol = 0.1
@@ -34,7 +34,7 @@ class find_zeroes(object):
     def tabular_f(self, num=50):
         M = np.max(np.abs(self.sols)) + 1
         xs = np.linspace(-M,M,num)
-        return [{'x': x, 'y': self.f(x)} for x in xs] 
+        return [{'x': x, 'y': self.f(x)} for x in xs]
 
     def stop(self, x_prev, x_curr, tol, method):
         """
@@ -120,14 +120,16 @@ class find_zeroes(object):
         if not self.f(a)*self.f(b) < 0:
             raise Exception(f'f({a})*f({b}) > 0')
 
-        while not self.stop(a, b, tol, stopmethod):
+        x_prev = a
+        x = b
+        while not self.stop(x_prev,x, tol, stopmethod):
+            x_prev = x
             x = (a*self.f(b) - b*self.f(a))/(self.f(b)-self.f(a))
             self.sols.append(x)
-
-            if self.f(a)*self.f(x) < 0:
-                b = x
-            else:
+            if self.f(a)*self.f(x) > 0:
                 a = x
+            else:
+                b = x
 
     def secant(self, x0, x1, tol, stopmethod):
         """
@@ -184,34 +186,34 @@ class find_zeroes(object):
             try:
                 a,b = initial
             except:
-                raise Exception('Invalid initial data. Expected (a,b)')
+                raise Exception('Invalid initial data. Expected a,b')
             self.bisection(a, b, tol, stopmethod)
 
         elif method.lower() == 'regula-falsi':
             try:
                 a,b = initial
             except:
-                raise Exception('Invalid initial data. Expected (a,b)')
+                raise Exception('Invalid initial data. Expected a,b')
             self.regula_falsi(a, b, tol, stopmethod)
 
         elif method.lower() == 'secant':
             try:
                 x0,x1 = initial
             except:
-                raise Exception('Invalid initial data. Expected (x0,x1)')
+                raise Exception('Invalid initial data. Expected x0,x1')
             self.secant(x0, x1, tol, stopmethod)
 
         elif method.lower() == 'newton':
             try:
                 x0 = initial[0]
             except:
-                raise Exception('Invalid initial data. Expected (x0)')
+                raise Exception('Invalid initial data. Expected x0')
             self.newton(x0, tol, stopmethod)
         else:
             raise Exception(f'Method "{method.lower()}" not found')
 
         if self.diverges():
-            print(f'Answer ({self.sol}) did not converge in {self.num_iter} iterations')
+            #print(f'Answer ({self.sol}) did not converge in {self.num_iter} iterations')
             return None
 
         #print(f'Answer is {self.sol} +- tol reached in {self.num_iter} iterations')

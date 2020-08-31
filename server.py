@@ -15,6 +15,7 @@ def send_request(ans=[], tol=0.1, error=False, message=''):
     return {
         'error': error, 'err_message': message,
         'f': ans.tabular_f(), 'sols': [{'n': n+1, 'x': x, 'y': ans.f(x)} for n,x in enumerate(ans.sols)],
+        'num_f': [{'x': n+1, 'y': x, 'n': n+1} for n,x in enumerate(ans.sols)],
         'sol': round(ans.sol, 5),
         'tol': ans.tol,
         'num_iter': ans.num_iter,

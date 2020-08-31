@@ -50,30 +50,44 @@
                 <button class="btn btn-primary" type="submit">Find</button>
             </form>
         </div>
-        <div class="col-lg-9 bg-light">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-                <canvas id="myChart"></canvas>
+        <div class="col-lg-6 bg-light">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                        <canvas id="chart-main"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                        <canvas id="chart-iter"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-
-    <div class="row text-center bg-dark text-light mx-5">
-        <div class="col-12">
-            <div class="row mb-0">
-                <div class="col-12 my-auto">
-                    <span>Solution</span>
+        <div class="col-lg-3 bg-dark">
+            <div class="row text-center bg-dark text-light">
+                <div class="col-12">
+                    <span class="text-center font-weight-bold mt-3">Solution</span>
+                    <hr class="bg-light">
                 </div>
-            </div>
-            <hr class="bg-light mt-0">
-            <div class="row">
-                <div class="col-4">
-                    x = <span id="sol_ans" class="text-warning">1.00000</span> $\pm$ <span id="sol_tol">0.001</span>
-                </div>
-                <div class="col-4">
-                    Reached in <span id="sol_itr" class="text-warning">6</span> iterations
-                </div>
-                <div class="col-4">
-                    with order of convergence of <span id="sol_conv" class="text-warning">1.757</span>
+                <div class="col-12">
+                    <div class="row my-5">
+                        <div class="col-12">
+                            x = <span id="sol_ans" class="text-warning">1.00000</span> $\pm$ <span id="sol_tol">0.001</span>
+                        </div>
+                    </div>
+                    <div class="row my-5">
+                        <div class="col-12">
+                            Reached in <span id="sol_itr" class="text-warning">6</span> iterations
+                        </div>
+                    </div>
+                    <div class="row my-5">
+                        <div class="col-12">
+                            with order of convergence of <span id="sol_conv" class="text-warning">1.757</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
