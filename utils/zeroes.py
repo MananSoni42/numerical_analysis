@@ -4,12 +4,14 @@ from matplotlib import cm
 from py_expression_eval import Parser
 parser = Parser()
 
-class find_zeroes(object):
+class F(object):
     """
-    Find zeroes of an arbitrary function defined in f(x)
+    Find zeroes of an arbitrary function f(x)
     methods:
         * Bisection(a,b)
-        * Secant(a,b)
+        * Regula Falsi(a,b)
+        * Secant(x0,x1)
+        * Newton(x0)
     """
     def __init__(self,f_expr, max_iter=100):
         self.max_iter = max_iter - 1
@@ -175,7 +177,7 @@ class find_zeroes(object):
             x_n = x - self.f(x) / self.f_(x)
             self.sols.append(x_n)
 
-    def find(self, method, initial, tol=0.0001, stopmethod='rel'):
+    def find_zeroes(self, method, initial, tol=0.0001, stopmethod='rel'):
         """
         Wrapper method that calls an appropriate mathod
         with the correct initial parameters
