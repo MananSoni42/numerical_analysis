@@ -1,8 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
-from py_expression_eval import Parser
-parser = Parser()
 
 class Solver(object):
     """
@@ -21,23 +19,57 @@ class Solver(object):
 
         if self.b.shape == (self.n,):
             self.b = self.b.reshape(self.b.shape[0],1)
-
         if (self.b.shape == (1,self.n)):
             self.b = self.b.T
-
         if (self.A.shape != (self.n,self.n)):
             raise Exception(f'incorrect dimensions for A: expected ({self.n},{self.n}) got ({self.A.shape})')
-
         if (self.b.shape != (self.n,1)):
             raise Exception(f'incorrect dimensions for b: expected ({self.n},1) got {self.b.shape}')
 
+        self.A_orig = self.A.copy()
+        self.b_orig = self.b.copy()
+        self.order = np.array([i for i in range(self.n)])
+        self.diag() # Try to convert A to diagonally dominant by swapping rows
+
     @property
     def sol(self):
+        #return self.sols[-1][self.order]
         return self.sols[-1]
 
     @property
     def num_iter(self):
         return len(self.sols)
+
+    def is_diag(self, A):
+        return np.all([2*np.abs(A[i,i]) >= np.sum(abs(A[i,:]))  for i in range(self.n)])
+
+    def exact_sol(self):
+        return np.dot(np.linalg.inv(self.A_orig),self.b_orig)
+
+    def diag(self):
+        """
+        Try to convert A into a diagonally dominant matrix
+        """
+        row_sum = [np.sum(np.abs(self.A[i,:])) for i in range(self.n)]
+        satisfies = lambda i,j: np.abs(self.A[i,j]) > row_sum[i] - np.abs(self.A[i,j])
+
+        for i in range(self.n):
+            if not satisfies(i,i):
+                row = i
+                for j in range(i+1,self.n):
+                    if i!=j and satisfies(j,i):
+                        row = j
+                        break
+                else:
+                    for j in range(i):
+                        if i!=j and satisfies(j,i) and satisfies(i,j):
+                            row = j
+                            break
+
+            self.order[i],self.order[row] = self.order[row],self.order[i]
+            self.A[[i,row]] = self.A[[row,i]]
+
+        self.b = self.b[self.order]
 
     def norm(self, x, name='inf'):
         """
