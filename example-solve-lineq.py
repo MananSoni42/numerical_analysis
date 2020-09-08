@@ -17,4 +17,4 @@ print('A is diagonally dominant: ', lineq.is_diag(lineq.A_orig))
 print('transformed A is diagonally dominant: ', lineq.is_diag(lineq.A))
 print('Approximate solution: ', lineq.sol)
 print('Exact solution: ', lineq.exact_sol()) # Not computationally feasible for very large matrices
-print(lineq.order)
+print('Solution using Gauss elimination: ', lineq.gauss_elim()) # Not computationally feasible for very large matrices

@@ -46,6 +46,37 @@ class Solver(object):
     def exact_sol(self):
         return np.dot(np.linalg.inv(self.A_orig),self.b_orig)
 
+    def gauss_elim(self):
+        A = np.array(self.A_orig.copy(), dtype=np.float32)
+        b = np.array(self.b_orig.copy(), dtype=np.float32)
+        x = np.zeros_like(b, dtype=np.float32)
+
+        # Reduce to REF
+        for i in range(self.n):
+            if abs(A[i,i]) <= 1e-3: # Zero found, swap rows
+                for j in range(i+1, self.n):
+                    if abs(A[i,i]) > 1e-3:
+                        A[[i,j]] = A[[j,i]]
+                        b[[i,j]] = b[[j,i]]
+                        break
+                else:
+                    raise Exception('Matrix is singular')
+            else:
+                for j in range(i+1,self.n):
+                    ratio = A[j,i]/A[i,i] # Get factor to multiply
+
+                    A[j,:] = A[j,:] - ratio*A[i,:] # Update jth row in A
+                    b[j] = b[j] - ratio*b[i] # Update jth row in b
+
+        # Back substitution
+        x[-1] = b[-1]/A[-1][-1] # last value is directly found
+        for i in reversed(range(self.n-1)):
+            x[i] = b[i]/A[i,i]
+            for j in range(i+1,self.n):
+                x[i] = x[i] - x[j]*(A[i,j]/A[i,i])
+
+        return x
+
     def diag(self):
         """
         Try to convert A into a diagonally dominant matrix
