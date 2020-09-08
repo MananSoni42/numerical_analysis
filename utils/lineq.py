@@ -33,8 +33,7 @@ class Solver(object):
 
     @property
     def sol(self):
-        #return self.sols[-1][self.order]
-        return self.sols[-1]
+        return self.sols[-1][self.order]
 
     @property
     def num_iter(self):
@@ -131,15 +130,11 @@ class Solver(object):
             return False
         return self.norm(self.sols[-1] - self.sols[-2], norm_name) <= tol
 
-    def jacobi(self, x0, tol, norm):
-        """
-        Solve using the Jacobi method
-        """
-        pass
-
     def gauss_seidel(self, x0, tol, norm):
         """
         Solve using the Gauss siedel method
+        A = L + U
+        x = L^(-1)*(b - Ux)
         """
         mask = np.array([[i>=j for j in range(self.n)] for i in range(self.n)])
         L =  self.A*mask
@@ -151,6 +146,25 @@ class Solver(object):
         self.sols.append(x0)
         while not self.stop(tol, norm):
             x_new = np.dot(L_inv, self.b - np.dot(U,x))
+            x = x_new
+            self.sols.append(x_new)
+
+    def jacobi(self, x0, tol, norm):
+        """
+        Solve using the Jacobi method
+        A = L + D + U
+        x = D^(-1)*(b - (L+U)x)
+        """
+        D = np.diag(np.diag(self.A))
+        LU = self.A - D
+
+        x = x0
+        x_new = x
+        self.sols.append(x0)
+
+        while not self.stop(tol, norm):
+            D_inv = np.diag(1 / np.diag(D))
+            x_new = np.dot(D_inv, self.b - np.dot(LU, x))
             x = x_new
             self.sols.append(x_new)
 
@@ -167,22 +181,11 @@ class Solver(object):
             raise Exception(f'incorrect dimensions for x0: expected ({self.n},1) got {x0.shape}')
 
         if method.lower() == 'jacobi':
-            self.gauss_seidel(x0,tol)
+            self.jacobi(x0, tol, norm)
         elif method.lower() == 'gauss-seidel':
-            self.gauss_seidel(x0,tol,norm)
+            self.gauss_seidel(x0, tol, norm)
         else:
             raise Exception(f'Method "{method}" not implemented, choose from [jacobi, gauss-seidel]')
-
-    def diverges(self):
-        """
-        Check if the solution diverges (ignores the first 2 values as they may be initial parameters)
-        """
-        y = np.diff(np.abs(np.array(self.sols[2:]) - self.sols[-1]))
-
-        if y[np.where(y>0)].shape[0] != 0:
-            return True
-
-        return False
 
     def visualize(self, label_every=1):
         """

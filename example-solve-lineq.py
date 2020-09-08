@@ -4,17 +4,18 @@ from utils.lineq import Solver
 import warnings
 warnings.filterwarnings('ignore')
 
-A = [[-1,  2, -5],
-     [ 1, -5,  3],
-     [ 4,  2,  1]]
+A = [[2, 1, 2],
+     [3, -3, -1],
+     [1, -2,  3]]
 
-b = [-10,4,7]
+b = [-1,5,6]
 
 lineq = Solver(A,b)
-lineq.find_solution(method='gauss-seidel', x0=[1,0,1])
+lineq.find_solution(method='jacobi', x0=[1,0,1])
 
-print('A is diagonally dominant: ', lineq.is_diag(lineq.A_orig))
-print('transformed A is diagonally dominant: ', lineq.is_diag(lineq.A))
-print('Approximate solution: ', lineq.sol)
-print('Exact solution: ', lineq.exact_sol()) # Not computationally feasible for very large matrices
-print('Solution using Gauss elimination: ', lineq.gauss_elim()) # Not computationally feasible for very large matrices
+print('A is diagonally dominant:', lineq.is_diag(lineq.A_orig))
+print('transformed A is diagonally dominant:', lineq.is_diag(lineq.A))
+print('')
+print('Exact solution:                   ', lineq.exact_sol().T) # Not computationally feasible for very large matrices
+print('Solution using Gauss elimination: ', lineq.gauss_elim().T) # Not computationally feasible for very large matrices
+print('Approximate solution:             ', lineq.sol.T)
