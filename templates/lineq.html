@@ -1,0 +1,118 @@
+{% extends "super.html" %}
+
+{% block content %}
+    <div class="row text-center mx-5 my-2">
+        <div class="col-lg-6 bg-dark text-light py-2">
+            <span class="text-center font-weight-bold">Options</span>
+            <hr class="bg-light mt-1">
+            <form class="p-2" id="params">
+                <div class="form-group row">
+                    <div class="form-group row">
+                        <div class="col-6">
+                            <button class="btn btn-success" id="addeq" type="button">+</button>
+                        </div>
+                        <div class="col-6">
+                            <button class="btn btn-danger" id="subeq" type="button">-</button>
+                        </div>
+                    </div>
+                    <div id="matrix-input">
+                        <div class="form-group row">
+                            <label class="col-4 col-form-label text-center">A</label>
+                            <label class="col-6 col-form-label text-center"></label>
+                            <label class="col-2 col-form-label text-center">B</label>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" id="0-0" name="0-0">
+                            </div>
+                            <div class="col-md-2 border-right">
+                                <input type="text" class="form-control" id="0-1" name="0-1">
+                            </div>
+                            <div class="col-md-6"></div>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" id="0-2" name="0-2">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" id="1-0" name="1-1">
+                            </div>
+                            <div class="col-md-2 border-right">
+                                <input type="text" class="form-control" id="1-0" name="1-1">
+                            </div>
+                            <div class="col-md-6"></div>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" id="1-2" name="1-2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="bg-light mt-1">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label text-left">Method</label>
+                    <div class="col-sm-8">
+                        <select class="custom-select" id="method" name="method">
+                          <option value="exact"> Exact solution </option>
+                          <option value="gauss"> Gauss elimination </option>
+                          <option value="jacobi"> Jacobi method </option>
+                          <option value="gauss-seidel" selected> Gauss-Seidel method </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-8 col-form-label text-left">Initial guess (comma seperated numbers)</label>
+                    <div class="col-sm-4 my-auto">
+                      <input type="text" class="form-control" id="initial" name="initial">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-6 col-form-label text-left">
+                        Tolerance (max: 0.1)
+                    </label>
+                    <div class="col-sm-6 my-auto">
+                        <input type="text" class="form-control" id="tol" name="tol">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label text-left">Norm</label>
+                    <div class="col-sm-8">
+                        <select class="custom-select" id="norm" name="norm">
+                          <option value="1" selected> norm 1: max(abs(row sum) </option>
+                          <option value="inf"> norm inf: max(abs(column sum) </option>
+                          <option value="2"> norm 2: max(abs(matrix)) </option>
+                          <option value="frobenius"> Frobenius norm </option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="submit">Find</button>
+            </form>
+        </div>
+        <div class="col-lg-6 bg-dark">
+            <div class="row text-center bg-dark text-light">
+                <div class="col-12">
+                    <span class="text-center font-weight-bold mt-3">Solution</span>
+                    <hr class="bg-light">
+                </div>
+                <div class="col-12">
+                    <div class="row my-5">
+                        <div class="col-12">
+                            x = <span id="sol_ans" class="text-warning">1.00000</span> $\pm$ <span id="sol_tol">0.001</span>
+                        </div>
+                    </div>
+                    <div class="row my-5">
+                        <div class="col-12">
+                            Reached in <span id="sol_itr" class="text-warning">6</span> iterations
+                        </div>
+                    </div>
+                    <div class="row my-5">
+                        <div class="col-12">
+                            with order of convergence of <span id="sol_conv" class="text-warning">1.757</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='lineq.js') }}"></script>
+{% endblock %}

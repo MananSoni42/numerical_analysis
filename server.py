@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, render_template, redirect
 from flask_cors import CORS
-from utils.zeroes import find_zeroes
+from utils.zeroes import F
 import warnings
 
 warnings.filterwarnings('ignore')
@@ -10,7 +10,7 @@ CORS(app)
 
 def send_request(ans=[], tol=0.1, error=False, message=''):
     if not ans:
-        ans = find_zeroes('0')
+        ans = F('0')
 
     return {
         'error': error, 'err_message': message,
@@ -30,11 +30,15 @@ def home():
 def zeroes():
     return render_template('zeroes.html')
 
+@app.route('/lineq')
+def lineq():
+    return render_template('lineq.html')
+
 @app.route('/api/zeroes', methods=['POST'])
 def find_zeros():
 
     try:
-        f = request.form['f']
+        func = request.form['f']
         method = request.form['method']
         tol = min(0.1, float(request.form['tol']))
         initial = [float(val) for val in request.form['initial'].replace('(','').replace(')','').split(',')]
@@ -43,12 +47,30 @@ def find_zeros():
         return send_request(error=True, message=f'Invalid form inputs: {str(e)}')
 
     try:
-        ans = find_zeroes(f)
+        ans = F(func)
     except Exception as e:
         return send_request(error=True, message=f'Could not parse f(x): {str(e)}')
 
     try:
-        ans.find(method=method, initial=initial, tol=tol, stopmethod=stopmethod)
+        ans.find_zeroes(method=method, initial=initial, tol=tol, stopmethod=stopmethod)
+    except Exception as e:
+        return send_request(error=True, message=f'Error while finding zeroes: {str(e)}')
+
+    return send_request(ans)
+
+@app.route('/api/lineq', methods=['POST'])
+def solve_lineq():
+    try:
+        func = request.form['f']
+        method = request.form['method']
+        tol = min(0.1, float(request.form['tol']))
+        initial = [float(val) for val in request.form['initial'].replace('(','').replace(')','').split(',')]
+        stopmethod = request.form['stop']
+    except Exception as e:
+        return send_request(error=True, message=f'Invalid form inputs: {str(e)}')
+
+    try:
+        ans.find_zeroes(method=method, initial=initial, tol=tol, stopmethod=stopmethod)
     except Exception as e:
         return send_request(error=True, message=f'Error while finding zeroes: {str(e)}')
 
