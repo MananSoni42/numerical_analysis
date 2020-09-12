@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, render_template, redirect
 from flask_cors import CORS
 from utils.zeroes import F
+from utils.lineq import Solver
 import warnings
 
 warnings.filterwarnings('ignore')
@@ -8,7 +9,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'The answer is 42'
 CORS(app)
 
-def send_request(ans=[], tol=0.1, error=False, message=''):
+def send_zero_request(ans=[], error=False, message=''):
     if not ans:
         ans = F('0')
 
@@ -20,6 +21,22 @@ def send_request(ans=[], tol=0.1, error=False, message=''):
         'tol': ans.tol,
         'num_iter': ans.num_iter,
         'ord_conv': max(0, ans.approx_convergence()),
+    }
+
+def send_lineq_request(ans=[], error=False, message=''):
+    if not ans:
+        ans = Solver([[1]],[1])
+        ans.find_solution('exact',[0])
+
+    return {
+        'error': error, 'err_message': message,
+        'cond': ans.cond_num(),
+        'diag': int(ans.is_diag(ans.A_orig)),
+        'diag_transform': int(ans.is_diag(ans.A)),
+        'A_diag': ans.A.tolist(),
+        'sol': ans.sol.tolist(),
+        'tol': ans.tol,
+        'num_iter': ans.num_iter,
     }
 
 @app.route('/')
@@ -44,37 +61,48 @@ def find_zeros():
         initial = [float(val) for val in request.form['initial'].replace('(','').replace(')','').split(',')]
         stopmethod = request.form['stop']
     except Exception as e:
-        return send_request(error=True, message=f'Invalid form inputs: {str(e)}')
+        return send_zero_request(error=True, message=f'Invalid form inputs: {str(e)}')
 
     try:
         ans = F(func)
     except Exception as e:
-        return send_request(error=True, message=f'Could not parse f(x): {str(e)}')
+        return send_zero_request(error=True, message=f'Could not parse f(x): {str(e)}')
 
     try:
         ans.find_zeroes(method=method, initial=initial, tol=tol, stopmethod=stopmethod)
     except Exception as e:
-        return send_request(error=True, message=f'Error while finding zeroes: {str(e)}')
+        return send_zero_request(error=True, message=f'Error while finding zeroes: {str(e)}')
 
-    return send_request(ans)
+    return send_zero_request(ans)
 
 @app.route('/api/lineq', methods=['POST'])
 def solve_lineq():
     try:
-        func = request.form['f']
-        method = request.form['method']
-        tol = min(0.1, float(request.form['tol']))
-        initial = [float(val) for val in request.form['initial'].replace('(','').replace(')','').split(',')]
-        stopmethod = request.form['stop']
+        n = int(request.form['n'])
+        A = [[float(request.form[f'{i}-{j}']) for j in range(n)] for i in range(n)]
+        b = [float(request.form[f'{i}-{n}']) for i in range(n)]
     except Exception as e:
-        return send_request(error=True, message=f'Invalid form inputs: {str(e)}')
+        return send_lineq_request(error=True, message=f'Invalid Matrix inputs')
 
     try:
-        ans.find_zeroes(method=method, initial=initial, tol=tol, stopmethod=stopmethod)
+        method = request.form['method']
+        tol = min(0.1,float(request.form['tol']))
+        norm = request.form['norm']
+        x0 = [float(val) for val in request.form['initial'].split(',')]
     except Exception as e:
-        return send_request(error=True, message=f'Error while finding zeroes: {str(e)}')
+        return send_lineq_request(error=True, message=f'Invalid option: {str(e)}')
 
-    return send_request(ans)
+    try:
+        lineq = Solver(A,b)
+    except Exception as e:
+        return send_lineq_request(error=True, message=f'Error while initializing matrices: {str(e)}')
+
+    try:
+        lineq.find_solution(method=method, x0=x0,tol=tol,norm=norm)
+    except Exception as e:
+        return send_lineq_request(error=True, message=f'Error while finding solution: {str(e)}')
+
+    return send_lineq_request(lineq)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

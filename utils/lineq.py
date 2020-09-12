@@ -45,6 +45,9 @@ class Solver(object):
     def exact_sol(self):
         return np.dot(np.linalg.inv(self.A_orig),self.b_orig)
 
+    def cond_num(self):
+        return self.norm(self.A, self.normname)*self.norm(np.linalg.inv(self.A), self.normname)
+
     def gauss_elim(self):
         A = np.array(self.A_orig.copy(), dtype=np.float32)
         b = np.array(self.b_orig.copy(), dtype=np.float32)
@@ -84,8 +87,8 @@ class Solver(object):
         satisfies = lambda i,j: np.abs(self.A[i,j]) > row_sum[i] - np.abs(self.A[i,j])
 
         for i in range(self.n):
+            row = i
             if not satisfies(i,i):
-                row = i
                 for j in range(i+1,self.n):
                     if i!=j and satisfies(j,i):
                         row = j
@@ -171,6 +174,7 @@ class Solver(object):
     def find_solution(self, method, x0, tol=None, norm='inf'):
         if not tol:
             tol = self.tol
+        self.normname = norm
 
         x0 = np.array(x0)
         if x0.shape == (self.n,):
@@ -184,14 +188,9 @@ class Solver(object):
             self.jacobi(x0, tol, norm)
         elif method.lower() == 'gauss-seidel':
             self.gauss_seidel(x0, tol, norm)
+        elif method.lower() == 'exact':
+            self.sols.append(self.exact_sol())
+        elif method.lower() == 'gauss-elim':
+            self.sols.append(self.gauss_elim())
         else:
-            raise Exception(f'Method "{method}" not implemented, choose from [jacobi, gauss-seidel]')
-
-    def visualize(self, label_every=1):
-        """
-        Visualize a given solution
-        Shows how the solution improved in 2 plots:
-            1. On top of the original function (y vs x) (n is shown using the color Red -> Green)
-            2. How just the x value changed (x vs n) (n is number of iterations)
-        """
-        pass
+            raise Exception(f'Method "{method}" not implemented, choose from [jacobi, gauss-seidel, exact, gauss-elim]')

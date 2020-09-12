@@ -1,18 +1,43 @@
 {% extends "super.html" %}
 
 {% block content %}
+    <div class="row bg-dark text-light text-center mx-5 my-2 p-3">
+        <div class="col-12">
+            Solve linear systems of upto 5 variabless (numerically). Linear equations are represented as AX = b. (Requires an initial solution)
+        </div>
+    </div>
+
     <div class="row text-center mx-5 my-2">
-        <div class="col-lg-6 bg-dark text-light py-2">
+        <div class="col-lg-6 bg-dark text-light py-2 m-1">
             <span class="text-center font-weight-bold">Options</span>
             <hr class="bg-light mt-1">
             <form class="p-2" id="params">
+                <input type="hidden" id="n" name="n" value="2">
                 <div class="form-group row">
                     <div class="form-group row">
                         <div class="col-6">
-                            <button class="btn btn-success" id="addeq" type="button">+</button>
+                            <div class="row">
+                                <div class="col-12">
+                                    <button class="btn btn-success" id="addeq" type="button">+</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <small> Add equation </small>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-6">
-                            <button class="btn btn-danger" id="subeq" type="button">-</button>
+                            <div class="row">
+                                <div class="col-12">
+                                    <button class="btn btn-danger" id="subeq" type="button">-</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <small> Remove equation </small>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div id="matrix-input">
@@ -22,26 +47,26 @@
                             <label class="col-2 col-form-label text-center">B</label>
                         </div>
                         <div class="form-group row">
-                            <div class="col-md-2">
+                            <div class="col-2">
                                 <input type="text" class="form-control" id="0-0" name="0-0">
                             </div>
-                            <div class="col-md-2 border-right">
+                            <div class="col-2 border-right">
                                 <input type="text" class="form-control" id="0-1" name="0-1">
                             </div>
-                            <div class="col-md-6"></div>
-                            <div class="col-md-2">
+                            <div class="col-6"></div>
+                            <div class="col-2">
                                 <input type="text" class="form-control" id="0-2" name="0-2">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <div class="col-md-2">
-                                <input type="text" class="form-control" id="1-0" name="1-1">
+                            <div class="col-2">
+                                <input type="text" class="form-control" id="1-0" name="1-0">
                             </div>
-                            <div class="col-md-2 border-right">
-                                <input type="text" class="form-control" id="1-0" name="1-1">
+                            <div class="col-2 border-right">
+                                <input type="text" class="form-control" id="1-1" name="1-1">
                             </div>
-                            <div class="col-md-6"></div>
-                            <div class="col-md-2">
+                            <div class="col-6"></div>
+                            <div class="col-2">
                                 <input type="text" class="form-control" id="1-2" name="1-2">
                             </div>
                         </div>
@@ -53,14 +78,14 @@
                     <div class="col-sm-8">
                         <select class="custom-select" id="method" name="method">
                           <option value="exact"> Exact solution </option>
-                          <option value="gauss"> Gauss elimination </option>
+                          <option value="gauss-elim"> Gauss elimination </option>
                           <option value="jacobi"> Jacobi method </option>
                           <option value="gauss-seidel" selected> Gauss-Seidel method </option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-8 col-form-label text-left">Initial guess (comma seperated numbers)</label>
+                    <label class="col-sm-8 col-form-label text-left">x0 i.e. Initial guess (comma seperated numbers)</label>
                     <div class="col-sm-4 my-auto">
                       <input type="text" class="form-control" id="initial" name="initial">
                     </div>
@@ -87,26 +112,47 @@
                 <button class="btn btn-primary" type="submit">Find</button>
             </form>
         </div>
-        <div class="col-lg-6 bg-dark">
+        <div class="col-auto bg-dark m-1">
             <div class="row text-center bg-dark text-light">
                 <div class="col-12">
                     <span class="text-center font-weight-bold mt-3">Solution</span>
                     <hr class="bg-light">
                 </div>
                 <div class="col-12">
-                    <div class="row my-5">
+                    <div class="row my-2">
                         <div class="col-12">
-                            x = <span id="sol_ans" class="text-warning">1.00000</span> $\pm$ <span id="sol_tol">0.001</span>
+                            Condition number <span id="sol_cond" class="text-warning">0</span>
                         </div>
                     </div>
-                    <div class="row my-5">
+                    <div class="row my-2">
                         <div class="col-12">
-                            Reached in <span id="sol_itr" class="text-warning">6</span> iterations
+                            A is diagonally dominant? <span id="sol_diag1" class="text-warning">false</span>
                         </div>
                     </div>
-                    <div class="row my-5">
+                    <div class="row my-2">
                         <div class="col-12">
-                            with order of convergence of <span id="sol_conv" class="text-warning">1.757</span>
+                            Can A be converted to a diagonally dominant form? <span id="sol_diag2" class="text-warning">false</span>
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <div class="col-12">
+                            Transformed A:
+                            <div class="row justify-content-center">
+                                <div class="col-auto" id="sol_diag3"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <div class="col-12">
+                            X:
+                            <div class="row justify-content-center">
+                                <div class="col-auto" id="sol_ans"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row my-2">
+                        <div class="col-12">
+                            Reached in <span id="sol_itr" class="text-warning">0</span> iterations
                         </div>
                     </div>
                 </div>
