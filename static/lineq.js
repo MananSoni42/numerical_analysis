@@ -70,7 +70,7 @@ function addTable(id, dataArray) {
     for(var j = 0 ; j < row.length ; j++) {
       myTable.appendChild(y2);
       var th2 = document.createElement('td');
-      var date2 = document.createTextNode(+row[j].toFixed(3));
+      var date2 = document.createTextNode(+row[j].toFixed(7));
       th2.appendChild(date2);
       y2.appendChild(th2);
     }
