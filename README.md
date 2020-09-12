@@ -30,11 +30,18 @@ Use this module to solve arbitrarily large linear equations numerically!
 - The equations are represented by Ax = b
 - Initialize the ```Solver``` with A and b
 - Find solutions using ```Solver.find_solution()```.
-- (TODO) After finding a solution, the answers can also be visualized using the ```visualize()``` method
 - A working example is provdided in ```example-solve-lineq.py```
 
 ####  Parameters:
-TODO
+- **method** (string):  one of ["exact", "gauss-elim", "jacobi", "gauss-seidel"]
+- **x0** (list): Initial solution estimate (dimensions must be same as that of b)
+- **tol** (float):  acceptable tolerance level
+- **norm** (string):  one of ["1", "2", "inf", "frobenius"]
+	Matrix norm to be used
+	- **"1":** Maximum over the row sum of absolute values
+	- **"inf":** Maximum over the column sum of absolute values
+	- **"2":** Maximum absolute value in the entire matrix
+	- **"frobenius":** sqrt of (Sum of square of all values in the matrix)
 
 ## Installing locally
 This project requires python (3.7+)
@@ -43,7 +50,7 @@ This project requires python (3.7+)
  ```
 pip install -r requirements.txt
  ```
-3.  Use the classes provided in the ```utils``` directory. Examples are provided in ```main.py```
+3.  Use the classes provided in the ```utils``` directory.
 
 ## Contributing
 Feel free to contribute features / point out errors. Fork this repository and make a pull request.  
