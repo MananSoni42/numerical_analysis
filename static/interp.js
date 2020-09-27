@@ -1,4 +1,10 @@
-var n = 1
+var n = 0
+
+$(document).ready(function() {
+    n = 1;
+    $('input[name="n"]').val(n);
+    $('#matrix-input').html(make_form(n));
+});
 
 function make_form(n) {
     var form = ""
@@ -115,6 +121,37 @@ var chart1 = new Chart(ctx, {
     }
 });
 
+function make_lagrange(coeffs) {
+    poly = "$";
+    poly += `${coeffs[0]} P_{${1}}`;
+
+    for (i=1;i<coeffs.length;i++) {
+        if (coeffs[i] >= 0) { poly += `+ ${coeffs[i]} P_{${i+1}}`; }
+        else { poly += `- ${-coeffs[i]} P_{${i+1}}`; }
+    }
+    poly += "$";
+
+    return poly;
+}
+
+function make_poly(coeffs) {
+    poly = "$";
+    n = coeffs.length
+    poly += `${coeffs[0]}x^{${n-1}}`;
+
+    for (i=1;i<coeffs.length-1;i++) {
+        if (coeffs[i] >= 0) { poly += `+ ${coeffs[i]} x^{${n-1-i}}`; }
+        else { poly += `- ${-coeffs[i]} x^{${n-1-i}}`; }
+    }
+    if (n > 1) {
+        if (coeffs[i] >= 0) { poly += `+ ${coeffs[i]}`; }
+        else { poly += `- ${-coeffs[i]}`; }
+    }
+    poly += "$";
+
+    return poly;
+}
+
 // Send a request to the server
 $("#params").submit(function(e) {
     e.preventDefault(); // avoid to execute the actual submit of the form.
@@ -122,20 +159,20 @@ $("#params").submit(function(e) {
     var url = form.attr('action');
     $.ajax({
            type: "POST",
-           url: '/api/zeroes',
+           url: '/api/interp',
            data: form.serialize(), // serializes the form's elements.
            success: function(response) {
                if (response['error']) {
                    alert(response['err_message'])
                }
                else {
-                   chart1.data.datasets[0].data = response['sols']
-                   chart1.data.datasets[1].data = response['f']
+                   chart1.data.datasets[0].data = response['data']
+                   chart1.data.datasets[1].data = response['poly']
                    chart1.update()
-                   $('#sol_ans').html(response['sol'])
-                   $('#sol_itr').html(response['num_iter'])
-                   $('#sol_tol').html(response['tol'])
-                   $('#sol_conv').html(response['ord_conv'])
+                   $('#sol_unsimple').html(make_lagrange(response['unsimple']))
+                   $('#sol_simple').html(make_poly(response['simple']))
+                   MathJax.Hub.Queue(["Typeset", MathJax.Hub, 'sol_unsimple']);
+                   MathJax.Hub.Queue(["Typeset", MathJax.Hub, 'sol_simple']);
                }
            },
     });

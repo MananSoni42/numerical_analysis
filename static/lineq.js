@@ -1,4 +1,10 @@
-var n = 2
+var n = 0
+
+$(document).ready(function() {
+    n = 2;
+    $('input[name="n"]').val(n);
+    $('#matrix-input').html(make_form(n));
+});
 
 function make_form(n) {
     var margin = 12 - 2*(n+1)

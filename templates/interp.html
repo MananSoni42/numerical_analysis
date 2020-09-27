@@ -3,7 +3,7 @@
 {% block content %}
     <div class="row bg-dark text-light text-center mx-5 my-2 p-3">
         <div class="col-12">
-            Interpolate using a table of given data
+            Interpolate using a table of given data (still under construction)
         </div>
     </div>
 
@@ -12,7 +12,7 @@
             <span class="text-center font-weight-bold">Options</span>
             <hr class="bg-light mt-1">
             <form class="p-2" id="params">
-                <input type="hidden" id="n" name="n" value="2">
+                <input type="hidden" id="n" name="n" value="0">
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label text-left">Method</label>
                     <div class="col-sm-8">
@@ -20,7 +20,7 @@
                           <option value="lagrange"> Lagrange </option>
                         </select>
                     </div>
-                </div>                
+                </div>
                 <div class="form-group row">
                     <div class="form-group row">
                         <div class="col-6">
@@ -49,18 +49,7 @@
                         </div>
                     </div>
                     <div id="matrix-input">
-                        <div class="form-group row mb-0">
-                            <label class="col-6 col-form-label text-center">x</label>
-                            <label class="col-6 col-form-label text-center">f(x)</label>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-6">
-                                <input type="text" class="form-control" id="0-0" name="0-0">
-                            </div>
-                            <div class="col-6">
-                                <input type="text" class="form-control" id="0-1" name="0-1">
-                            </div>
-                        </div>
+                        <!-- Filled using javascript-->
                     </div>
                 </div>
                 <button class="btn btn-primary mt-3" type="submit">Find</button>
@@ -80,7 +69,7 @@
             </div>
             <div class="row text-center bg-dark text-light">
                 <div class="col-12">
-                    $$ P_j = \prod_{i=0, i \neq j}^{n} (x-x_i) $$
+                    $$ P_j = \prod_{i=1, i \neq j}^{n} (x-x_i) $$
                 </div>
             </div>
             <div class="row text-center bg-dark text-light">
