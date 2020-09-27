@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, render_template, redirect
 from flask_cors import CORS
 from utils.zeroes import F
 from utils.lineq import Solver
+import os
 import warnings
 
 warnings.filterwarnings('ignore')
@@ -39,6 +40,8 @@ def send_lineq_request(ans=[], error=False, message=''):
         'num_iter': ans.num_iter,
     }
 
+## Serve the frontend pages ##
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -50,6 +53,14 @@ def zeroes():
 @app.route('/lineq')
 def lineq():
     return render_template('lineq.html')
+
+@app.route('/interp')
+def interp():
+    return render_template('interp.html')
+
+##############################
+
+###### backend APIs used ######
 
 @app.route('/api/zeroes', methods=['POST'])
 def find_zeros():
@@ -104,5 +115,15 @@ def solve_lineq():
 
     return send_lineq_request(lineq)
 
+#####################################
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    extra_dirs = ['.',]
+    extra_files = extra_dirs[:]
+    for extra_dir in extra_dirs:
+        for dirname, dirs, files in os.walk(extra_dir):
+            for filename in files:
+                filename = os.path.join(dirname, filename)
+                if os.path.isfile(filename):
+                    extra_files.append(filename)
+    app.run(debug=True, extra_files=extra_files)

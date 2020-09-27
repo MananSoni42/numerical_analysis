@@ -1,0 +1,124 @@
+{% extends "super.html" %}
+
+{% block content %}
+    <div class="row bg-dark text-light text-center mx-5 my-2 p-3">
+        <div class="col-12">
+            Interpolate using a table of given data
+        </div>
+    </div>
+
+    <div class="row text-center mx-5 my-2">
+        <div class="col-lg-3 bg-dark text-light py-2">
+            <span class="text-center font-weight-bold">Options</span>
+            <hr class="bg-light mt-1">
+            <form class="p-2" id="params">
+                <input type="hidden" id="n" name="n" value="2">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label text-left">Method</label>
+                    <div class="col-sm-8">
+                        <select class="custom-select" id="method" name="method">
+                          <option value="lagrange"> Lagrange </option>
+                        </select>
+                    </div>
+                </div>                
+                <div class="form-group row">
+                    <div class="form-group row">
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-12">
+                                    <button class="btn btn-success" id="addeq" type="button">+</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <small> Add data</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-12">
+                                    <button class="btn btn-danger" id="subeq" type="button">-</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <small> Remove data</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="matrix-input">
+                        <div class="form-group row mb-0">
+                            <label class="col-6 col-form-label text-center">x</label>
+                            <label class="col-6 col-form-label text-center">f(x)</label>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-6">
+                                <input type="text" class="form-control" id="0-0" name="0-0">
+                            </div>
+                            <div class="col-6">
+                                <input type="text" class="form-control" id="0-1" name="0-1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary mt-3" type="submit">Find</button>
+            </form>
+        </div>
+        <div class="col-lg-6 bg-light">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                <canvas id="chart-main"></canvas>
+            </div>
+        </div>
+        <div class="col-lg-3 bg-dark">
+            <div class="row text-center bg-dark text-light">
+                <div class="col-12">
+                    <span class="text-center font-weight-bold mt-3">Solution</span>
+                    <hr class="bg-light">
+                </div>
+            </div>
+            <div class="row text-center bg-dark text-light">
+                <div class="col-12">
+                    $$ P_j = \prod_{i=0, i \neq j}^{n} (x-x_i) $$
+                </div>
+            </div>
+            <div class="row text-center bg-dark text-light">
+                <div class="col-12">
+                    <div class="row my-5">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-12">
+                                    Lagrange polynomial
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <span id="sol_unsimple" class="text-warning">$ 5P_1 - 3P_2 $</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row my-5">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-12">
+                                    Simplified polynomial
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <span id="sol_simple" class="text-warning">$ 10x^2 + 5x - 4 $</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- script to run chart.js -->
+    <script src="{{ url_for('static', filename='interp.js') }}"></script>
+    <!-- -->
+{% endblock %}
