@@ -9,6 +9,6 @@ fx = [4,1,0,1,4]
 
 f = Points(x,fx)
 f.interpolate(method='lagrange')
-print(f.lagrange_coeffs)
-print(f.sol)
+print('lagrange coeffs: ', f.coeffs)
+print('polynomial coeffs', f.sol)
 f.visualize()

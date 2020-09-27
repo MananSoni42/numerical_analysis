@@ -62,6 +62,10 @@ class Points(object):
         self.fx_ = fx_
         self.pol = Poly([0])
 
+        assert (len(self.x) == len(self.fx))
+        if fx_:
+            assert (len(self.x) == len(self.fx_))
+
     @property
     def sol(self):
         return self.pol.coeffs
@@ -82,7 +86,16 @@ class Points(object):
             poly.scalar_mult(coeff)
             final_poly = final_poly + poly
 
-        self.lagrange_coeffs = lagrange_coeffs
+        self.coeffs = lagrange_coeffs
+        self.pol = final_poly
+
+    def newton_divided_diff(self):
+        newton_coeffs = []
+        final_poly = Poly([0])
+
+        # Write code here
+
+        self.coeffs = newton_coeffs
         self.pol = final_poly
 
     def interpolate(self, method):
