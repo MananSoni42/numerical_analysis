@@ -99,57 +99,33 @@ var chart1 = new Chart(ctx, {
                 },
             }],
         },
-        tooltips: {
-            callbacks: {
-                title: function(item, data) {
-                    return "";
-                },
-                label: function(item, data) {
-                    var ind = item.datasetIndex;
-                    var x = +data.datasets[ind].data[item.index].x.toFixed(3);
-                    var y = +data.datasets[ind].data[item.index].y.toFixed(3);
-                    if (ind == 0) {
-                        var n = data.datasets[ind].data[item.index].n
-                        return "n: " + n + " x: " + x + " y: " + y;
-                    }
-                    else {
-                        return "x: " + x + " y: " + y;
-                    }
-                }
-            }
-        }
     }
 });
 
 function make_lagrange(coeffs) {
-    poly = "$";
-    poly += `${coeffs[0]} P_{${1}}`;
-
+    poly = `${coeffs[0]} P_{${1}}`;
     for (i=1;i<coeffs.length;i++) {
         if (coeffs[i] >= 0) { poly += `+ ${coeffs[i]} P_{${i+1}}`; }
         else { poly += `- ${-coeffs[i]} P_{${i+1}}`; }
     }
-    poly += "$";
 
-    return poly;
+    return "$$" + poly + "$$";
 }
 
 function make_poly(coeffs) {
-    poly = "$";
     n = coeffs.length
-    poly += `${coeffs[0]}x^{${n-1}}`;
-
+    poly = `${coeffs[0]}x^{${n-1}}`;
     for (i=1;i<coeffs.length-1;i++) {
         if (coeffs[i] >= 0) { poly += `+ ${coeffs[i]} x^{${n-1-i}}`; }
         else { poly += `- ${-coeffs[i]} x^{${n-1-i}}`; }
     }
+
     if (n > 1) {
         if (coeffs[i] >= 0) { poly += `+ ${coeffs[i]}`; }
         else { poly += `- ${-coeffs[i]}`; }
     }
-    poly += "$";
 
-    return poly;
+    return "$$" + poly + "$$";
 }
 
 // Send a request to the server
