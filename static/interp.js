@@ -102,11 +102,13 @@ var chart1 = new Chart(ctx, {
     }
 });
 
-function make_lagrange(coeffs) {
-    poly = `${coeffs[0]} P_{${1}}`;
-    for (i=1;i<coeffs.length;i++) {
-        if (coeffs[i] >= 0) { poly += `+ ${coeffs[i]} P_{${i+1}}`; }
-        else { poly += `- ${-coeffs[i]} P_{${i+1}}`; }
+function make_special(coeffs, v) {
+    start = 1;
+    if (v == 'N') { start = 0; }
+    poly = `${coeffs[0]} ${v}_{${start}}`;
+    for (i=start;i<coeffs.length;i++) {
+        if (coeffs[i] >= 0) { poly += `+ ${coeffs[i]} ${v}_{${i+1}}`; }
+        else { poly += `- ${-coeffs[i]} ${v}_{${i+1}}`; }
     }
 
     return "$$" + poly + "$$";
@@ -142,10 +144,12 @@ $("#params").submit(function(e) {
                    alert(response['err_message'])
                }
                else {
+                   console.log(response)
                    chart1.data.datasets[0].data = response['data']
                    chart1.data.datasets[1].data = response['poly']
                    chart1.update()
-                   $('#sol_unsimple').html(make_lagrange(response['unsimple']))
+                   $('#method_name').html(response['method'])
+                   $('#sol_unsimple').html(make_special(response['unsimple'], response['var']))
                    $('#sol_simple').html(make_poly(response['simple']))
                    MathJax.Hub.Queue(["Typeset", MathJax.Hub, 'sol_unsimple']);
                    MathJax.Hub.Queue(["Typeset", MathJax.Hub, 'sol_simple']);

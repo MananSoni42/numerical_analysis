@@ -17,7 +17,8 @@
                     <label class="col-sm-4 col-form-label text-left">Method</label>
                     <div class="col-sm-8">
                         <select class="custom-select" id="method" name="method">
-                          <option value="lagrange"> Lagrange </option>
+                            <option value="lagrange"> Lagrange </option>
+                            <option value="newton"> Newton's divided differences </option>
                         </select>
                     </div>
                 </div>
@@ -68,8 +69,12 @@
                 </div>
             </div>
             <div class="row text-center bg-dark text-light">
-                <div class="col-12">
-                    $$ P_j = \prod_{i=1, i \neq j}^{n} (x-x_i) $$
+                <div class="col-6">
+                    $$ \small{P_j = \prod_{i=1, i \neq j}^{n} x-x_i} $$
+                </div>
+                <div class="col-6">
+                    $$ \small{N_j = \prod_{i=1}^{j} x-x_i} $$
+                    $$ N_0 = 1 $$
                 </div>
             </div>
             <div class="row text-center bg-dark text-light">
@@ -78,7 +83,7 @@
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-12">
-                                    Lagrange polynomial
+                                    <span id="method_name">Lagrange</span>polynomial
                                 </div>
                             </div>
                             <div class="row">

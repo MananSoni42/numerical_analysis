@@ -40,7 +40,9 @@ def send_interp_request(poly=None, error=False, message=''):
     x,y = poly.table()
     print(poly.x, poly.fx)
     return {
+        'method': poly.method,
         'error': error, 'err_message': message,
+        'var': 'P' if poly.method == 'lagrange' else 'N',
         'unsimple': [round(val,3) for val in poly.coeffs],
         'simple': [round(val,3) for val in poly.sol],
         'poly': [{ 'x': x[i], 'y': y[i] } for i in range(len(x))],
