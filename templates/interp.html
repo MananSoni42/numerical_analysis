@@ -23,30 +23,18 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <div class="form-group row">
-                        <div class="col-6">
-                            <div class="row">
-                                <div class="col-12">
-                                    <button class="btn btn-success" id="addeq" type="button">+</button>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <small> Add data</small>
-                                </div>
-                            </div>
+                    <div class="form-group row mt-3 mb-0">
+                        <div class="col-2">
+                            <small>Add</small>
                         </div>
-                        <div class="col-6">
-                            <div class="row">
-                                <div class="col-12">
-                                    <button class="btn btn-danger" id="subeq" type="button">-</button>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <small> Remove data</small>
-                                </div>
-                            </div>
+                        <div class="col-4">
+                            <button class="btn btn-success" id="addeq" type="button">+</button>
+                        </div>
+                        <div class="col-2">
+                            <small>Remove</small>
+                        </div>
+                        <div class="col-4">
+                            <button class="btn btn-danger" id="subeq" type="button">-</button>
                         </div>
                     </div>
                     <div id="matrix-input">
@@ -69,12 +57,21 @@
                 </div>
             </div>
             <div class="row text-center bg-dark text-light">
-                <div class="col-6">
-                    $$ \small{P_j = \prod_{i=1, i \neq j}^{n} x-x_i} $$
-                </div>
-                <div class="col-6">
-                    $$ \small{N_j = \prod_{i=1}^{j} x-x_i} $$
-                    $$ N_0 = 1 $$
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            Notation
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            $$ \small{P_j = \prod_{i=1, i \neq j}^{n} x-x_i} $$
+                        </div>
+                        <div class="col-6">
+                            $$ \small{N_j = \prod_{i=1}^{j} x-x_i} $$
+                            $$ N_0 = 1 $$
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row text-center bg-dark text-light">

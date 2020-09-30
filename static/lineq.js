@@ -13,7 +13,7 @@ function make_form(n) {
     margin_line = ""
     if (margin != 0) { margin_line = `<label class="col-${margin} col-form-label text-center"></label>` }
     form += `
-        <div class="form-group row">
+        <div class="form-group row mb-0">
             <label class="col-${2*n} col-form-label text-center">A</label>
             ${margin_line}
             <label class="col-2 col-form-label text-center">B</label>
@@ -48,6 +48,7 @@ function make_form(n) {
 
 $("#addeq").click(function(e) {
     e.preventDefault();
+
     n = Math.min(5,n+1);
     $('input[name="n"]').val(n);
     $('#matrix-input').html(make_form(n));
@@ -55,6 +56,7 @@ $("#addeq").click(function(e) {
 
 $("#subeq").click(function(e) {
     e.preventDefault();
+
     n = Math.max(1,n-1);
     $('input[name="n"]').val(n);
     $('#matrix-input').html(make_form(n));

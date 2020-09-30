@@ -1,4 +1,5 @@
 var n = 0
+var cols = 2;
 
 $(document).ready(function() {
     n = 1;
@@ -10,7 +11,7 @@ function make_form(n) {
     var form = ""
 
     form += `
-    <div class="form-group row">
+    <div class="form-group row mb-0">
         <label class="col-6 col-form-label text-center">x</label>
         <label class="col-6 col-form-label text-center">f(x)</label>
     </div>
@@ -29,22 +30,44 @@ function make_form(n) {
         `;
     }
 
-    //console.log(form)
     return form;
+}
+
+function getform(n) {
+    var x = [], y = [];
+    for (var i=0;i<n;i++) {
+        x.push($(`#${i}-0`).val())
+        y.push($(`#${i}-1`).val())
+    }
+    return [x,y];
+}
+
+function fillform(n, data) {
+    m = data[0].length;
+    for (var i=0;i<Math.min(m,n);i++) {
+        $(`#${i}-0`).val(data[0][i])
+        $(`#${i}-1`).val(data[1][i])
+    }
 }
 
 $("#addeq").click(function(e) {
     e.preventDefault();
+
+    var pts = getform(n);
     n = n+1;
     $('input[name="n"]').val(n);
     $('#matrix-input').html(make_form(n));
+    fillform(n, pts);
 });
 
 $("#subeq").click(function(e) {
     e.preventDefault();
+
+    var pts = getform(n);
     n = Math.max(1,n-1);
     $('input[name="n"]').val(n);
     $('#matrix-input').html(make_form(n));
+    fillform(n, pts)
 });
 
 // Canvas js supports zoom
@@ -144,7 +167,6 @@ $("#params").submit(function(e) {
                    alert(response['err_message'])
                }
                else {
-                   console.log(response)
                    chart1.data.datasets[0].data = response['data']
                    chart1.data.datasets[1].data = response['poly']
                    chart1.update()
