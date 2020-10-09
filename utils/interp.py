@@ -183,9 +183,7 @@ class Points(object):
         """
         poly_x, poly_y = self.table(num_pts)
         error_y = self.error_table(actual_f, eps, poly_x)
-        #plt.subplot(211)
-        plt.plot(poly_x, poly_y, c='b', zorder=1)
-        plt.scatter(self.x, self.fx, c='r', zorder=2)
-        #plt.subplot(212)
-        #plt.plot(poly_x, error_y)
+        plt.plot(poly_x, poly_y, c='b', zorder=1, label='intepolating polynomial')
+        plt.scatter(self.x, self.fx, c='r', zorder=2, label='original data')
+        plt.legend(loc="upper left")
         plt.show()
