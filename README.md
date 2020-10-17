@@ -52,7 +52,7 @@ Use this module to interpolate from an existing table of data using polynomials 
 - A working example is provdided in ```example-interpolate.py```
 
 ####  Parameters:
-- **method** (string):  one of ["lagrange", "newton", "hermite"]
+- None
 
 ## Installing locally
 This project requires python (3.7+)

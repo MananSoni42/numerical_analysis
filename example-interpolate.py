@@ -10,9 +10,8 @@ fx = [ -1, 0, 1, 2, 3]
 fx_ = [nan, -3, 2, -3, nan]
 
 f = Points(x,fx,fx_)
-#f.interpolate(method='lagrange')
-#f.interpolate(method='newton')
-f.interpolate(method='hermite')
-print('coeffs: ', f.coeffs)
+f.interpolate()
+print('lagrange coeffs: ', f.lagrange_coeffs)
+print('newton coeffs: ', f.lagrange_coeffs)
 print('polynomial: ', f.pol)
 f.visualize()

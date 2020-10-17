@@ -125,10 +125,13 @@ class Points(object):
             lagrange_coeffs.append(coeff)
             final_poly = final_poly + poly.scalar_mult(coeff)
 
-        self.coeffs = lagrange_coeffs
+        self.lagrange_coeffs = lagrange_coeffs
         self.pol = final_poly
 
     def newton_divided_diff(self):
+        """
+        deprecated: Use the hermite method insted, it is more general
+        """
         newton_coeffs = []
         final_poly = Poly([0])
 
@@ -145,7 +148,7 @@ class Points(object):
             final_poly = final_poly + poly.scalar_mult(coeff)
             newton_coeffs.append(coeff)
 
-        self.coeffs = newton_coeffs
+        self.newton_coeffs = newton_coeffs
         self.pol = final_poly
 
     def hermite(self):
@@ -180,19 +183,13 @@ class Points(object):
             final_poly = final_poly + poly.scalar_mult(coeff)
             hermite_coeffs.append(coeff)
 
-        self.coeffs = hermite_coeffs
+        self.newton_coeffs = hermite_coeffs
         self.pol = final_poly
 
-    def interpolate(self, method):
-        """Wrapper method that calls an appropriate mathod with the correct parameters"""
-        if method.lower() == 'lagrange':
-            self.lagrange()
-        elif method.lower() == 'newton':
-            self.newton_divided_diff()
-        elif method.lower() == 'hermite':
-            self.hermite()
-        else:
-            raise Exception(f'Method {method} not implemented')
+    def interpolate(self):
+        """Wrapper method to interpolate"""
+        self.lagrange()
+        self.hermite()
 
     def table(self, num_pts=500):
         """Return a table of polynomial values for plotting"""
