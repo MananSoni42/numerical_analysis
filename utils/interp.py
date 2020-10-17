@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from scipy.misc import derivative
+import math
 
 class Poly(object):
     """
@@ -57,7 +58,7 @@ class Poly(object):
 
     def scalar_mult(self, scalar):
         """Multiply polynomial by given scalar """
-        self.coeffs = [scalar*coeff for coeff in self.coeffs]
+        return Poly([scalar*coeff for coeff in self.coeffs])
 
     def __mul__(self, other):
         """multiply 2 polynomials"""
@@ -78,9 +79,11 @@ class Points(object):
         self.fx_ = fx_
         self.pol = Poly([0])
 
+        if not self.fx_:
+            self.fx_ = [float('nan') for _ in range(len(self.x))]
+
         assert (len(self.x) == len(self.fx))
-        if fx_:
-            assert (len(self.x) == len(self.fx_))
+        assert(len(self.x) == len(self.fx_))
 
     @property
     def sol(self):
@@ -120,8 +123,7 @@ class Points(object):
             coeff *= self.fx[i]
 
             lagrange_coeffs.append(coeff)
-            poly.scalar_mult(coeff)
-            final_poly = final_poly + poly
+            final_poly = final_poly + poly.scalar_mult(coeff)
 
         self.coeffs = lagrange_coeffs
         self.pol = final_poly
@@ -140,13 +142,45 @@ class Points(object):
             lst.append(i)
             coeff = delf(lst)
 
-            temp_poly = Poly(poly.coeffs)
-            temp_poly.scalar_mult(coeff)
-
-            final_poly = final_poly + temp_poly
+            final_poly = final_poly + poly.scalar_mult(coeff)
             newton_coeffs.append(coeff)
 
         self.coeffs = newton_coeffs
+        self.pol = final_poly
+
+    def hermite(self):
+        new_x = []
+        for i,x in enumerate(self.x):
+            if not math.isnan(self.fx_[i]):
+                new_x += [x]*2
+            else:
+                new_x += [x]
+
+        hermite_coeffs = []
+        final_poly = Poly([0])
+
+        def delf(lst):
+            if len(lst) == 1:
+                ind = self.x.index(new_x[lst[0]])
+                return self.fx[ind]
+            elif new_x[lst[-1]] != new_x[lst[0]]:
+                return (delf(lst[1:])-delf(lst[:-1]))/(new_x[lst[-1]] - new_x[lst[0]])
+            else:
+                ind = self.x.index(new_x[lst[-1]])
+                return self.fx_[ind]
+
+        lst = []
+        poly = Poly([1])
+        for i in range(len(new_x)):
+            if i > 0:
+                poly = poly * Poly([1,-new_x[i-1]])
+            lst.append(i)
+            coeff = delf(lst)
+
+            final_poly = final_poly + poly.scalar_mult(coeff)
+            hermite_coeffs.append(coeff)
+
+        self.coeffs = hermite_coeffs
         self.pol = final_poly
 
     def interpolate(self, method):
@@ -155,6 +189,10 @@ class Points(object):
             self.lagrange()
         elif method.lower() == 'newton':
             self.newton_divided_diff()
+        elif method.lower() == 'hermite':
+            self.hermite()
+        else:
+            raise Exception(f'Method {method} not implemented')
 
     def table(self, num_pts=500):
         """Return a table of polynomial values for plotting"""
@@ -176,13 +214,13 @@ class Points(object):
             errors.append(error)
         return errors
 
-    def visualize(self, actual_f, eps, num_pts=500):
+    def visualize(self, num_pts=500):
         """
         Visualize a given solution
         Displays the original points along with the interpolated polynomial
         """
         poly_x, poly_y = self.table(num_pts)
-        error_y = self.error_table(actual_f, eps, poly_x)
+        #error_y = self.error_table(actual_f, eps, poly_x)
         #plt.subplot(211)
         plt.plot(poly_x, poly_y, c='b', zorder=1)
         plt.scatter(self.x, self.fx, c='r', zorder=2)

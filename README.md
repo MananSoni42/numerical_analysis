@@ -43,6 +43,17 @@ Use this module to solve arbitrarily large linear equations numerically!
 	- **"2":** Maximum absolute value in the entire matrix
 	- **"frobenius":** sqrt of (Sum of square of all values in the matrix)
 
+### 3. Polynomial interpolation
+Use this module to interpolate from an existing table of data using polynomials of appropriate degree
+- Provide a list of values for x, y and optionally for y'
+- Initialize ```Points``` with x, y (and y' optionally)
+- Interpolate using ```Points.interpolate()```.
+- You can also visualize using ```Points.visualize()```.
+- A working example is provdided in ```example-interpolate.py```
+
+####  Parameters:
+- **method** (string):  one of ["lagrange", "newton", "hermite"]
+
 ## Installing locally
 This project requires python (3.7+)
 1. Install [Python](https://www.python.org/) and [pip](https://pip.pypa.io/en/stable/)
