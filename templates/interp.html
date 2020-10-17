@@ -19,6 +19,7 @@
                         <select class="custom-select" id="method" name="method">
                             <option value="lagrange"> Lagrange </option>
                             <option value="newton"> Newton's divided differences </option>
+                            <option value="hermite"> Hermite </option>
                         </select>
                     </div>
                 </div>
@@ -65,7 +66,7 @@
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            $$ \small{P_j = \prod_{i=1, i \neq j}^{n} x-x_i} $$
+                            $$ \small{L_j = \prod_{i=1, i \neq j}^{n} x-x_i} $$
                         </div>
                         <div class="col-6">
                             $$ \small{N_j = \prod_{i=1}^{j} x-x_i} $$
@@ -80,12 +81,12 @@
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-12">
-                                    <span id="method_name">Lagrange</span>polynomial
+                                    <span id="method_name">Lagrange</span> polynomial
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-12">
-                                    <span id="sol_unsimple" class="text-warning">$ 5P_1 - 3P_2 $</span>
+                                    <span id="sol_unsimple" class="text-warning"> - </span>
                                 </div>
                             </div>
                         </div>
@@ -99,7 +100,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-12">
-                                    <span id="sol_simple" class="text-warning">$ 10x^2 + 5x - 4 $</span>
+                                    <span id="sol_simple" class="text-warning"> - </span>
                                 </div>
                             </div>
                         </div>

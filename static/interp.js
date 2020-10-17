@@ -11,20 +11,24 @@ function make_form(n) {
     var form = ""
 
     form += `
-    <div class="form-group row mb-0">
-        <label class="col-6 col-form-label text-center">x</label>
-        <label class="col-6 col-form-label text-center">f(x)</label>
+    <div class="form-group row mb-0 mt-3">
+        <label class="col-4 col-form-label text-center">x</label>
+        <label class="col-4 col-form-label text-center">f(x)</label>
+        <label class="col-4 col-form-label text-center">f'(x) <small> optional <small></label>
     </div>
     `;
 
     for (i=0;i<n;i++) {
         form += `
         <div class="form-group row">
-            <div class="col-6">
+            <div class="col-4">
                 <input type="text" class="form-control" id="${i}-0" name="${i}-0">
             </div>
-            <div class="col-6">
+            <div class="col-4">
                 <input type="text" class="form-control" id="${i}-1" name="${i}-1">
+            </div>
+            <div class="col-4">
+                <input type="text" class="form-control" id="${i}-2" name="${i}-2" placeholder="-">
             </div>
         </div>
         `;
@@ -34,12 +38,13 @@ function make_form(n) {
 }
 
 function getform(n) {
-    var x = [], y = [];
+    var x = [], y = [], z = [];
     for (var i=0;i<n;i++) {
         x.push($(`#${i}-0`).val())
         y.push($(`#${i}-1`).val())
+        z.push($(`#${i}-2`).val())
     }
-    return [x,y];
+    return [x,y,z];
 }
 
 function fillform(n, data) {
@@ -47,6 +52,7 @@ function fillform(n, data) {
     for (var i=0;i<Math.min(m,n);i++) {
         $(`#${i}-0`).val(data[0][i])
         $(`#${i}-1`).val(data[1][i])
+        $(`#${i}-2`).val(data[2][i])
     }
 }
 

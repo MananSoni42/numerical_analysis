@@ -93,6 +93,7 @@ def interpolate():
         n = int(request.form['n'])
         x = [float(request.form[f'{i}-{0}']) for i in range(n)]
         y = [float(request.form[f'{i}-{1}']) for i in range(n)]
+        y_ = [float(request.form[f'{i}-{2}']) if request.form[f'{i}-{2}'] else float('nan') for i in range(n)]
     except Exception as e:
         return send_interp_request(error=True, message=f'Invalid input data')
 
@@ -102,7 +103,7 @@ def interpolate():
         return send_interp_request(error=True, message=f'Invalid option: {str(e)}')
 
     try:
-        pts = Points(x,y)
+        pts = Points(x,y,y_)
     except Exception as e:
         return send_interp_request(error=True, message=f'Error while initializing matrices: {str(e)}')
 
@@ -116,12 +117,4 @@ def interpolate():
 #####################################
 
 if __name__ == '__main__':
-    extra_dirs = ['.',]
-    extra_files = extra_dirs[:]
-    for extra_dir in extra_dirs:
-        for dirname, dirs, files in os.walk(extra_dir):
-            for filename in files:
-                filename = os.path.join(dirname, filename)
-                if os.path.isfile(filename):
-                    extra_files.append(filename)
-    app.run(debug=True, extra_files=extra_files)
+    app.run()
