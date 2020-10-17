@@ -4,14 +4,15 @@ from utils.interp import Points
 import warnings
 warnings.filterwarnings('ignore')
 
+nan = float('nan') # Use NANs to specify missing f'(x) values
 x = [-2,-1,0,1,2]
-fx = [ 4, 3, 1, 2, 0]
+fx = [ -1, 0, 1, 2, 3]
+fx_ = [nan, -3, 2, -3, nan]
 
-actual_f = lambda x: np.exp(x)
-eps = -1.5
-
-f = Points(x,fx)
-f.interpolate(method='newton')
+f = Points(x,fx,fx_)
+#f.interpolate(method='lagrange')
+#f.interpolate(method='newton')
+f.interpolate(method='hermite')
 print('coeffs: ', f.coeffs)
-print('polynomial coeffs', f.sol)
-f.visualize(actual_f, eps)
+print('polynomial: ', f.pol)
+f.visualize()
