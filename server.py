@@ -98,17 +98,12 @@ def interpolate():
         return send_interp_request(error=True, message=f'Invalid input data')
 
     try:
-        method = request.form['method']
-    except Exception as e:
-        return send_interp_request(error=True, message=f'Invalid option: {str(e)}')
-
-    try:
         pts = Points(x,y,y_)
     except Exception as e:
-        return send_interp_request(error=True, message=f'Error while initializing matrices: {str(e)}')
+        return send_interp_request(error=True, message=f'Error while initializing: {str(e)}')
 
     try:
-        pts.interpolate(method=method)
+        pts.interpolate()
     except Exception as e:
         return send_interp_request(error=True, message=f'Error while interpolation: {str(e)}')
 

@@ -176,8 +176,10 @@ $("#params").submit(function(e) {
                    chart1.data.datasets[0].data = response['data']
                    chart1.data.datasets[1].data = response['poly']
                    chart1.update()
-                   $('#method_name').html(response['method'])
-                   $('#sol_unsimple').html(make_special(response['unsimple'], response['var']))
+                   console.log(response['lagrange']);
+                   console.log(response['newton']);                   
+                   $('#sol_lagrange').html(make_special(response['lagrange'], 'L'))
+                   $('#sol_newton').html(make_special(response['newton'], 'N'))
                    $('#sol_simple').html(make_poly(response['simple']))
                    MathJax.Hub.Queue(["Typeset", MathJax.Hub, 'sol_unsimple']);
                    MathJax.Hub.Queue(["Typeset", MathJax.Hub, 'sol_simple']);
