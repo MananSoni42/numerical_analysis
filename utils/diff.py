@@ -41,7 +41,7 @@ class Diff_Fn(object):
                 result += pow(-1,k)*choose(n,k)*self.f(x+(n/2 - k)*h)
         elif method.lower() == 'forward':
             for k in range(n+1):
-                result += pow(-1,n-k)*choose(n,k)*self.f(x+(n - k)*h)
+                result += pow(-1,k)*choose(n,k)*self.f(x+(n - k)*h)
         elif method.lower() == 'backward':
             for k in range(n+1):
                 result += pow(-1,k)*choose(n,k)*self.f(x-k*h)
