@@ -2,7 +2,25 @@
 # Numerical Analysis
 This repository contains visualizations for the course Numerical Analysis (MATH F313) at BITS Pilani. The aim of this Repository is to provide useful visualizations so that students (like me!) can better understand the course material.
 
-> This content can also be accessed on the web. Visit [na-bits.herokuapp.com](http://na-bits.herokuapp.com/) for the interactive version.
+> The contents of this repository can be accessed in 2 ways:
+> 1. An interactive website (with limited functionality): [na-bits.herokuapp.com](http://na-bits.herokuapp.com/)
+> 2. A Python API (with complete functionality): This repository (utils/ and example-*)
+
+## Table of Contents
+  * [Usage](#usage)
+    + [1. Finding zeroes](#1-finding-zeroes)
+      - [Parameters:](#parameters-)
+    + [2. Solving linear equations](#2-solving-linear-equations)
+      - [Parameters:](#parameters--1)
+    + [3. Polynomial interpolation](#3-polynomial-interpolation)
+      - [Parameters:](#parameters--2)
+    + [4. Numerical Differentiation](#4-numerical-differentiation)
+      - [Parameters:](#parameters--3)
+    + [4. Numerical Integration](#4-numerical-integration)
+      - [Parameters:](#parameters--4)
+  * [Installing locally](#installing-locally)
+  * [Contributing](#contributing)
+  * [License](#license)
 
 ## Usage
 ### 1. Finding zeroes
@@ -41,7 +59,7 @@ Use this module to solve arbitrarily large linear equations numerically!
 	- **"1":** Maximum over the row sum of absolute values
 	- **"inf":** Maximum over the column sum of absolute values
 	- **"2":** Maximum absolute value in the entire matrix
-	- **"frobenius":** sqrt of (Sum of square of all values in the matrix)
+	- **"frobenius":** sqrt of the squared sum of all values in the matrix
 
 ### 3. Polynomial interpolation
 Use this module to interpolate from an existing table of data using polynomials of appropriate degree
@@ -50,6 +68,28 @@ Use this module to interpolate from an existing table of data using polynomials 
 - Interpolate using ```Points.interpolate()```.
 - You can also visualize using ```Points.visualize()```.
 - A working example is provdided in ```example-interpolate.py```
+
+####  Parameters:
+- None
+
+### 4. Numerical Differentiation
+Use this module to numerically differentiate a given function
+- Provide a list of values for x, y and optionally for y'
+- Initialize ```Points``` with x, y (and y' optionally)
+- Interpolate using ```Points.interpolate()```.
+- You can also visualize using ```Points.visualize()```.
+- A working example is provdided in ```example-differentiate.py```
+
+####  Parameters:
+- None
+
+### 5. Numerical Integration
+Use this module to numerically integrate a given function
+- Provide a list of values for x, y and optionally for y'
+- Initialize ```Points``` with x, y (and y' optionally)
+- Interpolate using ```Points.interpolate()```.
+- You can also visualize using ```Points.visualize()```.
+- A working example is provdided in ```example-integrate.py```
 
 ####  Parameters:
 - None
