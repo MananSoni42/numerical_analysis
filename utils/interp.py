@@ -70,7 +70,6 @@ class Poly(object):
 class Points(object):
     """
     Interpolote a polynomial f(x) from a table of (x,f(x))
-    Error visualization is also available
     """
     def __init__(self, x, fx, fx_=None):
         self.x = x

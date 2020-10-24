@@ -2,12 +2,15 @@ from utils.zeroes import F
 from utils.lineq import Solver
 from utils.interp import Points
 
-def send_zero_request(ans=[], error=False, message=''):
-    if not ans:
-        ans = F('0')
-
+def send_error(message):
     return {
-        'error': error, 'err_message': message,
+        'error': True,
+        'err_message': message
+    }
+
+def send_zero_request(ans):
+    return {
+        'error': False,
         'f': ans.tabular_f(), 'sols': [{'n': n+1, 'x': x, 'y': ans.f(x)} for n,x in enumerate(ans.sols)],
         'num_f': [{'x': n+1, 'y': x, 'n': n+1} for n,x in enumerate(ans.sols)],
         'sol': round(ans.sol, 5),
@@ -16,13 +19,9 @@ def send_zero_request(ans=[], error=False, message=''):
         'ord_conv': max(0, ans.approx_convergence()),
     }
 
-def send_lineq_request(ans=[], error=False, message=''):
-    if not ans:
-        ans = Solver([[1]],[1])
-        ans.find_solution('exact',[0])
-
+def send_lineq_request(ans):
     return {
-        'error': error, 'err_message': message,
+        'error': False,
         'cond': ans.cond_num(),
         'diag': int(ans.is_diag(ans.A_orig)),
         'diag_transform': int(ans.is_diag(ans.A)),
@@ -32,18 +31,22 @@ def send_lineq_request(ans=[], error=False, message=''):
         'num_iter': ans.num_iter,
     }
 
-def send_interp_request(poly=None, error=False, message=''):
-    if not poly:
-        poly = Points([[0]],[0])
-        poly.interpolate(method='lagrange')
-
+def send_interp_request(poly):
     x,y = poly.table()
-    print(poly.x, poly.fx)
     return {
-        'error': error, 'err_message': message,
+        'error': False,
         'simple': [round(val,3) for val in poly.sol],
         'lagrange': [round(val,3) for val in poly.lagrange_coeffs],
         'newton': [round(val,3) for val in poly.newton_coeffs],
         'poly': [{ 'x': x[i], 'y': y[i] } for i in range(len(x))],
         'data': [{'x': poly.x[i], 'y': poly.fx[i]} for i in range(len(poly.x))]
+    }
+
+def send_diff_request(fn, x0):
+    x,y,y_ = fn.table(range=(x0-10, x0+10))
+    return {
+        'error': False,
+        'f': [{'x': x[i], 'y': round(y[i],3)} for i in range(len(x))],
+        'f_': [{'x': x[i], 'y': round(y_[i],3)} for i in range(len(x))],
+        'x0': [{'x': x0, 'y': fn.diff(order=fn.n, x=x0, h=fn.h, method=fn.method) }],
     }
