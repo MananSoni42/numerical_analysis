@@ -1,6 +1,7 @@
 from utils.zeroes import F
 from utils.lineq import Solver
 from utils.interp import Points
+import numpy as np
 
 def send_error(message):
     return {
@@ -49,4 +50,13 @@ def send_diff_request(fn, x0):
         'f': [{'x': x[i], 'y': round(y[i],3)} for i in range(len(x))],
         'f_': [{'x': x[i], 'y': round(y_[i],3)} for i in range(len(x))],
         'x0': [{'x': x0, 'y': fn.diff(order=fn.n, x=x0, h=fn.h, method=fn.method) }],
+    }
+
+def send_intg_request(fn):
+    x,y = fn.table()
+    return {
+        'error': False,
+        'ans': round(fn.sol,5),
+        'f': [{'x': x[i], 'y': round(y[i],3)} for i in range(len(x))],
+        'pts': [{'x': pt, 'y': y} for pt in fn.int_pts for y in np.linspace(0,fn.f(pt),100) ]
     }

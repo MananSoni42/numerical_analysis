@@ -1,9 +1,9 @@
 from flask import Flask, request, jsonify, render_template, redirect
-from flask_cors import CORS
 from utils.zeroes import F
 from utils.lineq import Solver
 from utils.interp import Points
-from utils.diff import Diff_Fn
+from utils.diff import Diff_fn
+from utils.intg import Int_fn
 from make_requests import *
 import os
 import warnings
@@ -11,7 +11,6 @@ import warnings
 warnings.filterwarnings('ignore')
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'The answer is 42'
-CORS(app)
 
 ## Serve the frontend pages ##
 
@@ -34,6 +33,10 @@ def interp():
 @app.route('/diff')
 def diff():
     return render_template('diff.html')
+
+@app.route('/int')
+def intg():
+    return render_template('int.html')
 
 ##############################
 
@@ -126,7 +129,7 @@ def differentiate():
         return send_error(f'Invalid input data')
 
     try:
-        fn = Diff_Fn(f)
+        fn = Diff_fn(f)
     except Exception as e:
         return send_error(f'Error while initializing: {str(e)}')
 
@@ -137,6 +140,28 @@ def differentiate():
 
     return send_diff_request(fn, x0)
 
+@app.route('/api/int', methods=['POST'])
+def integrate():
+    try:
+        f = request.form['f']
+        from_ = float(request.form['from'])
+        to_ = float(request.form['to'])
+        n = int(request.form['n'])
+        method = request.form['method']
+    except Exception as e:
+        return send_error(f'Invalid input data')
+
+    try:
+        fn = Int_fn(f)
+    except Exception as e:
+        return send_error(f'Error while initializing: {str(e)}')
+
+    try:
+        fn.integrate(from_=from_, to_=to_, num_pts=n, method=method)
+    except Exception as e:
+        return send_error(f'Error while calculating: {str(e)}')
+
+    return send_intg_request(fn)
 
 #####################################
 
