@@ -96,6 +96,10 @@ var chart2 = new Chart(ctx2, {
                     display: true,
                     labelString: 'X-value'
                 },
+                ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: 10,
+                }
             }],
         },
     }
@@ -119,6 +123,8 @@ $("#params").submit(function(e) {
                    chart1.update();
                    chart2.data.datasets[0].data = response['x0'];
                    chart2.data.datasets[1].data = response['f_'];
+                   chart2.options.scales.yAxes[0].ticks.suggestedMax = response['y_max'];
+                   chart2.options.scales.yAxes[0].ticks.suggestedMin = response['y_min'];
                    chart2.update();
                }
            },

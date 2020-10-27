@@ -49,7 +49,9 @@ def send_diff_request(fn, x0):
         'error': False,
         'f': [{'x': x[i], 'y': round(y[i],3)} for i in range(len(x))],
         'f_': [{'x': x[i], 'y': round(y_[i],3)} for i in range(len(x))],
-        'x0': [{'x': x0, 'y': fn.diff(order=fn.n, x=x0, h=fn.h, method=fn.method) }],
+        'x0': [{'x': x0, 'y': fn.differentiate(order=fn.n, x=x0, h=fn.h, method=fn.method) }],
+        'y_min': min(y),
+        'y_max': max(y)
     }
 
 def send_intg_request(fn):

@@ -2,8 +2,8 @@ from flask import Flask, request, jsonify, render_template, redirect
 from utils.zeroes import F
 from utils.lineq import Solver
 from utils.interp import Points
-from utils.diff import Diff_fn
-from utils.intg import Int_fn
+from utils.diff import Diff_F
+from utils.intg import Int_F
 from make_requests import *
 import os
 import warnings
@@ -129,12 +129,12 @@ def differentiate():
         return send_error(f'Invalid input data')
 
     try:
-        fn = Diff_fn(f)
+        fn = Diff_F(f)
     except Exception as e:
         return send_error(f'Error while initializing: {str(e)}')
 
     try:
-        fn.diff(order=order, x=x0, h=h, method=method)
+        fn.differentiate(order=order, x=x0, h=h, method=method)
     except Exception as e:
         return send_error(f'Error while calculating: {str(e)}')
 
@@ -152,7 +152,7 @@ def integrate():
         return send_error(f'Invalid input data')
 
     try:
-        fn = Int_fn(f)
+        fn = Int_F(f)
     except Exception as e:
         return send_error(f'Error while initializing: {str(e)}')
 
