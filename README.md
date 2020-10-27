@@ -4,33 +4,42 @@ This repository contains visualizations for the course Numerical Analysis (MATH 
 
 > The contents of this repository can be accessed in 2 ways:
 > 1. An interactive website (with limited functionality): [na-bits.herokuapp.com](http://na-bits.herokuapp.com/)
-> 2. A Python API (with complete functionality): This repository (utils/ and example-*)
+> 2. A Python API (with complete functionality): This repository
 
-## Table of Contents
-  * [Usage](#usage)
-    + [1. Finding zeroes](#1-finding-zeroes)
-      - [Parameters:](#parameters-)
-    + [2. Solving linear equations](#2-solving-linear-equations)
-      - [Parameters:](#parameters--1)
-    + [3. Polynomial interpolation](#3-polynomial-interpolation)
-      - [Parameters:](#parameters--2)
-    + [4. Numerical Differentiation](#4-numerical-differentiation)
-      - [Parameters:](#parameters--3)
-    + [4. Numerical Integration](#4-numerical-integration)
-      - [Parameters:](#parameters--4)
-  * [Installing locally](#installing-locally)
-  * [Contributing](#contributing)
-  * [License](#license)
+## Table of contents
+
+* [Usage](#usage)
+* [1. Finding zeroes](#1-finding-zeroes)
+* [2. Solving linear equations](#2-solving-linear-equations)
+* [3. Polynomial interpolation](#3-polynomial-interpolation)
+* [4. Numerical Differentiation](#4-numerical-differentiation)
+* [5. Numerical Integration](#5-numerical-integration)
+* [Installing locally](#installing-locally)
+* [Contributing](#contributing)
+* [License](#license)
 
 ## Usage
-### 1. Finding zeroes
-Use this module to find zeroes for any function you like!  
-- Initialize ```F``` with a valid function f(x)
-- Find zeroes of f(x) using ```F.find_zeroes()```. Solutions can be found using a variety of methods
-- Visualize the solution using ```F.visualize()```
+
+All the libraries have a uniform calling style:
+* Instantiate the class (```C```)
+* Perform calculation using the given method (```method()```)
+* Answer is available in ```C.sol```
+* Visualize the answer using ```C.visualize()```
+
+| Module | Class ```C```   | ```method()```   |
+|--------|-----------------|------------------|
+| 1      | F               | find_zeroes()     |
+| 2      | Solver          | find_solution()   |
+| 3      | Points          | interpolate()    |
+| 4      | Diff_F           | differentiate()   |
+| 5      | Int_F           | integrate()      |
+
+## 1. Finding zeroes
+- Use this module to find zeroes for any function you like!
+- visualizations available
 - A working example is provdided in ```example-find-zeroes.py```
 
-####  Parameters:
+### Parameters:
 - **initial** (string): comma seperated list of values for the initial parameters
 - **method** (string):  one of ["bisection", "regula-falsi", "secant", "newton"]
 - **tol** (float):  acceptable tolerance level
@@ -43,14 +52,12 @@ Use this module to find zeroes for any function you like!
     - **"func":** Use the given function to terminate i.e terminate when:
             | f(x_{n}) | < tol
 
-### 2. Solving linear equations
-Use this module to solve arbitrarily large linear equations numerically!  
-- The equations are represented by Ax = b
-- Initialize the ```Solver``` with A and b
-- Find solutions using ```Solver.find_solution()```.
+## 2. Solving linear equations
+- Use this module to solve arbitrarily large linear equations numerically!
+- visualizations not available
 - A working example is provdided in ```example-solve-lineq.py```
 
-####  Parameters:
+### Parameters:
 - **method** (string):  one of ["exact", "gauss-elim", "jacobi", "gauss-seidel"]
 - **x0** (list): Initial solution estimate (dimensions must be same as that of b)
 - **tol** (float):  acceptable tolerance level
@@ -61,38 +68,40 @@ Use this module to solve arbitrarily large linear equations numerically!
 	- **"2":** Maximum absolute value in the entire matrix
 	- **"frobenius":** sqrt of the squared sum of all values in the matrix
 
-### 3. Polynomial interpolation
-Use this module to interpolate from an existing table of data using polynomials of appropriate degree
-- Provide a list of values for x, y and optionally for y'
-- Initialize ```Points``` with x, y (and y' optionally)
-- Interpolate using ```Points.interpolate()```.
-- You can also visualize using ```Points.visualize()```.
+## 3. Polynomial interpolation
+- Use this module to interpolate from an existing table of data using polynomials
+- visualizations available
 - A working example is provdided in ```example-interpolate.py```
 
-####  Parameters:
+### Parameters:
 - None
 
-### 4. Numerical Differentiation
-Use this module to numerically differentiate a given function
-- Provide a list of values for x, y and optionally for y'
-- Initialize ```Points``` with x, y (and y' optionally)
-- Interpolate using ```Points.interpolate()```.
-- You can also visualize using ```Points.visualize()```.
+## 4. Numerical Differentiation
+- Use this module to numerically differentiate a given function
+- visualizations available
 - A working example is provdided in ```example-differentiate.py```
 
-####  Parameters:
-- None
+### Parameters:
+- **method** (string):  one of ["forward", "central", "backward"]
+- **x** (float): Point at which to differentiate
+- **order** (int): Order of differentiation (how many times to differentiate)
+- **h** (float): change in x (approximation of the limit definition)
 
-### 5. Numerical Integration
-Use this module to numerically integrate a given function
-- Provide a list of values for x, y and optionally for y'
-- Initialize ```Points``` with x, y (and y' optionally)
-- Interpolate using ```Points.interpolate()```.
-- You can also visualize using ```Points.visualize()```.
+## 5. Numerical Integration
+- Use this module to numerically integrate a given function
+- visualizations available
 - A working example is provdided in ```example-integrate.py```
 
-####  Parameters:
-- None
+### Parameters:
+- **method** (string):  one of ["trap", "simp", "simp_3/8", "gauss_legendre"]
+    Method to use
+    - **"trap":** Use the trapezoid rule
+    - **"simp":** Use Simpson's rule (requires 2k+1 points)
+    - **"simp":** Use Simpson's 3/8 rule (requires 3k+1 points)
+    - **"gauss_legendre":** Use the Gauss Legendre method
+- **from_** (float): Point from which to integrate
+- **to_** (float): Point till which to integrate
+- **num_pts** (string): number of points to use (between ```from_``` and ```to_```)
 
 ## Installing locally
 This project requires python (3.7+)

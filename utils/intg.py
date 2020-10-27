@@ -5,7 +5,7 @@ from py_expression_eval import Parser
 import math
 parser = Parser()
 
-class Int_fn(object):
+class Int_F(object):
     """
     Integrate a function f(x) from a to b
     """
@@ -25,35 +25,41 @@ class Int_fn(object):
     def trapeziod(self, interval, n):
         """
         order: 1
-        coeffs [0.5 (1)* 0.5]
-        """
-        a,b = interval
-        h = (b-a)/(n-1)
-        coeffs = [1/2] + [1]*(n-2) + [1/2]
-        self.ans = sum([h*coeffs[i]*self.f(a + i*h) for i in range(n)])
-
-    def simpsons(self, interval,n):
-        """
-        order: 2
-        coeffs [1/3 (4/3 2/3)* 1/3]
+        coeffs h/2 * [1 1]
         """
         a,b = interval
         h = (b-a)/(n-1)
         x = np.linspace(a,b,n)
-        coeffs = [1/3] + [2/3 if (i%2 == 0) else 4/3 for i in range(n-2)] + [1/3]
 
-        self.ans = sum([h*coeffs[i]*self.f(a + i*h) for i in range(n)])
+        self.ans = (h/2)*sum([self.f(x[i]) + self.f(x[i+1]) for i in range(0,n-1,1)])
+
+    def simpsons(self, interval,n):
+        """
+        order: 2
+        coeffs h/3 * [1 4 1]
+        """
+        if (n-1)%2 != 0:
+            raise Exception('Number of points must be of the form 2k+1')
+
+        a,b = interval
+        h = (b-a)/(n-1)
+        x = np.linspace(a,b,n)
+
+        self.ans = (h/3)*sum([self.f(x[i]) + 4*self.f(x[i+1]) + self.f(x[i+2]) for i in range(0,n-2,2)])
 
     def simpsons_3_8(self, interval, n):
         """
         order: 3
-        coeffs [3/8 (9/8 9/8 6/8)* 3/8]
+        coeffs 3h/8 * [1 3 3 1]
         """
+        if (n-1)%3 != 0:
+            raise Exception('Number of points must be of the form 3k+1')
+
         a,b = interval
         h = (b-a)/(n-1)
-        coeffs = [3/8] + [9/8 if (i%3==0) else (9/8 if (i%3 == 1) else 6/8) for i in range(n-2)] + [3/8]
+        x = np.linspace(a,b,n)
 
-        self.ans = sum([h*coeffs[i]*self.f(a + i*h) for i in range(n)])
+        self.ans = (3*h/8)*sum([self.f(x[i]) + 3*self.f(x[i+1]) + 3*self.f(x[i+2]) + self.f(x[i+3]) for i in range(0,n-3,3)])
 
     def gauss_legendre(self, interval, n):
         """
@@ -90,9 +96,13 @@ class Int_fn(object):
         else:
             raise Exception(f'method `{method}` not implemented')
 
-    def visualize(self, num_pts=500):
+    def table(self, num_pts=500):
         xs = np.linspace(*self.range_, num_pts)
         ys = [self.f(x) for x in xs]
+        return xs, ys
+
+    def visualize(self, num_pts=500):
+        xs, ys = self.table(num_pts)
 
         plt.plot(xs, ys, c='b', zorder=2)
         plt.plot(xs, [0 for x in xs], c='k', zorder=1)

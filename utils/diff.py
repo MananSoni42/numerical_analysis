@@ -5,7 +5,7 @@ from py_expression_eval import Parser
 import math
 parser = Parser()
 
-class Diff_Fn(object):
+class Diff_F(object):
     """Differentiate a given function at any given point"""
 
     def __init__(self, f_expr):
@@ -21,7 +21,7 @@ class Diff_Fn(object):
     def sol(self):
         return self.ans
 
-    def diff(self, order, x, h=0.3, method='central'):
+    def differentiate(self, order, x, h=0.3, method='central'):
         """
         Numerically compute nth derivative of any given function
         This is numerically VERY unstable (as the errors propogate)
@@ -41,7 +41,7 @@ class Diff_Fn(object):
                 result += pow(-1,k)*choose(n,k)*self.f(x+(n/2 - k)*h)
         elif method.lower() == 'forward':
             for k in range(n+1):
-                result += pow(-1,k)*choose(n,k)*self.f(x+(n - k)*h)
+                result += pow(-1,k)*choose(n,k)*self.f(x+(n-k)*h)
         elif method.lower() == 'backward':
             for k in range(n+1):
                 result += pow(-1,k)*choose(n,k)*self.f(x-k*h)
@@ -51,11 +51,14 @@ class Diff_Fn(object):
         self.ans = result / pow(h,n)
         return self.ans
 
-    def visualize(self, range, num_pts=500):
+    def table(self, range, num_pts=500):
         xs = np.linspace(*range, num_pts)
-        y_s = [self.diff(self.n, x, self.h, self.method) for x in xs]
+        y_s = [self.differentiate(self.n, x, self.h, self.method) for x in xs]
         ys = [self.f(x) for x in xs]
+        return xs, ys, y_s
 
+    def visualize(self, range, num_pts=500):
+        xs, ys, y_s = self.table(range, num_pts)
         plt.subplot(211)
         plt.plot(xs, ys, c='b', label='f')
         plt.plot(xs,[0]*len(xs), c='k', label='X-axis')
@@ -63,8 +66,8 @@ class Diff_Fn(object):
         plt.legend(loc='upper left')
 
         plt.subplot(212)
-        plt.plot(xs,y_s, c='r', label=f'f^({self.n})')
-        plt.plot(xs,[0]*len(xs), c='k', label='X-axis')
+        plt.plot(xs,y_s, c='r', label=f'f^({self.n})', zorder=2)
+        plt.plot(xs,[0]*len(xs), c='k', label='X-axis', zorder=1)
         plt.legend(loc='upper left')
-        #plt.gca().set_ylim(yl)
+        plt.gca().set_ylim(yl)
         plt.show()

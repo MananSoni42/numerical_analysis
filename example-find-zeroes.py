@@ -1,6 +1,6 @@
 from pprint import pprint
 import numpy as np
-from utils.zeroes import F
+from utils.zeroes import fn
 import warnings
 warnings.filterwarnings('ignore')
 

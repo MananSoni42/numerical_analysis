@@ -1,12 +1,12 @@
 from pprint import pprint
 import numpy as np
-from utils.diff import Diff_Fn
+from utils.diff import Diff_F
 import warnings
 warnings.filterwarnings('ignore')
 
-f = Diff_Fn('5*x^2')
-
-f.diff(order=2, x=1, h=0.01, method='backward')
-print(f'f\'\'(1) = {f.sol}')
-
+f = Diff_F('5*x^2')
+ord = 3
+f.differentiate(order=ord, x=1, h=0.01, method='backward')
+tick = '\''
+print(f'f{"".join([tick]*ord)}(1) = {f.sol}')
 f.visualize(range=(-10,10))
