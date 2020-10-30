@@ -1,10 +1,9 @@
-
 # Numerical Analysis
 This repository contains visualizations for the course Numerical Analysis (MATH F313) at BITS Pilani. The aim of this Repository is to provide useful visualizations so that students (like me!) can better understand the course material.
 
-> The contents of this repository can be accessed in 2 ways:
-> 1. An interactive website (with limited functionality): [na-bits.herokuapp.com](http://na-bits.herokuapp.com/)
-> 2. A Python API (with complete functionality): This repository
+> **Production branch**  
+> This branch **automatically** deploys to [na-bits.herokuapp.com](http://na-bits.herokuapp.com/) using Heroku when a new commit is pushed  
+> Ensure that the code runs (currently, no tests are configured)
 
 ## Table of contents
 
