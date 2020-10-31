@@ -29,7 +29,7 @@ class DE(object):
 
     def euler(self, h , interval):
         """
-        Euler's mthod
+        Euler's method
         extended to handle arbitrary intervals
         """
         self.ans = []
@@ -50,7 +50,7 @@ class DE(object):
 
     def modified_euler(self, h , interval):
         """
-        Modified Euler's mthod
+        Modified Euler's method
         extended to handle arbitrary intervals
         """
         self.ans = []
@@ -69,6 +69,59 @@ class DE(object):
             self.ans.append({'x': x, 'y': y})
             y1 = y + h/2 * self.f(x,y)
             y = y1 + h/2 * self.f(x+h, y + h*y1)
+            x = x + h
+
+    def adaptive_euler(self, interval, tol):
+        """
+        Adaptive Euler's method
+        Adjusts step size according to the tolerance provided
+        extended to handle arbitrary intervals
+        """
+        self.ans = []
+        a,b = interval
+
+        x = self.x0
+        y = self.y0
+        h = 2*tol / 0.9 # initial value to the value of tolerance
+        a1,a2 = (y,y)
+        while a < x:
+            self.ans.append({'x': x, 'y': y})
+
+            a1 = y - h * self.f(x,y) # euler 1 step
+            ymid = y - (h/2) * self.f(x,y)
+            a2 = ymid - (h/2) * self.f(x - h/2, ymid) # euler 2 step
+            local_err = abs(a1-a2) / h
+
+            while local_err > tol:
+                h = 0.9 * tol * h  / local_err
+                a1 = y - h * self.f(x,y) # euler 1 step
+                ymid = y - (h/2) * self.f(x,y)
+                a2 = ymid - (h/2) * self.f(x - h/2, ymid) # euler 2 step
+                local_err = abs(a1-a2) / h
+
+            y = 2*a2 - a1 # a2 - err = a2 - (a2-a1) = 2*a2 - a1
+            x = x - h
+
+        x = self.x0
+        y = self.y0
+        h = 2*tol / 0.9 # initial value to the value of tolerance
+        a1,a2 = (y,y)
+        while x < b:
+            self.ans.append({'x': x, 'y': y})
+
+            a1 = y + h * self.f(x,y) # euler 1 step
+            ymid = y + (h/2) * self.f(x,y)
+            a2 = ymid + (h/2) * self.f(x + h/2, ymid) # euler 2 step
+            local_err = abs(a1-a2) / h
+
+            while local_err > tol:
+                h = 0.9 * tol * h  / local_err
+                a1 = y + h * self.f(x,y) # euler 1 step
+                ymid = y + (h/2) * self.f(x,y)
+                a2 = ymid + (h/2) * self.f(x + h/2, ymid) # euler 2 step
+                local_err = abs(a1-a2) / h
+
+            y = 2*a2 - a1
             x = x + h
 
     def runge_kutta(self, h , interval):
@@ -100,13 +153,20 @@ class DE(object):
             y = y + (1/6) * (k1 + 2*k2+ 2*k3 + k4)
             x = x + h
 
-    def solve(self, method, h, interval):
+    def solve(self, method, interval, h=None, tol=None):
         method = method.lower()
+
+        if method in ['euler', 'modified-euler', 'runge-kutta-4'] and not h:
+            raise Exception(f'Method `{method}` requires step size `h` to be specified')
+        if method in ['adaptive-euler'] and not tol:
+            raise Exception(f'Method `{method}` requires a tolerance `tol` to be specified')
 
         if method == 'euler':
             self.euler(h, interval)
         elif method == 'modified-euler':
             self.modified_euler(h, interval)
+        elif method == 'adaptive-euler':
+            self.adaptive_euler(interval, tol)
         elif method == 'runge-kutta-4':
             self.runge_kutta(h, interval)
         else:
@@ -118,9 +178,9 @@ class DE(object):
         y = [val['y'] for val in self.ans]
 
         x,y = (list(t) for t in zip(*sorted(zip(x,y))))
-
-        plt.plot(x, y, c='b', zorder=1, label='approximate solution')
-        plt.scatter(x, y, c='r', zorder=2)
+        plt.plot(x, np.exp(x), c='y', zorder=1, label='exact solution')
+        plt.plot(x, y, c='b', zorder=2, label='approximate solution')
+        plt.scatter(x, y, c='r', zorder=3)
         plt.scatter(self.x0, self.y0, c='k', zorder=3)
         plt.legend(loc="upper left")
         plt.show()
