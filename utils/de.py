@@ -16,6 +16,7 @@ class DE(object):
     """
 
     def __init__(self, y_, x0, y0):
+        self.y_ = y_
         self.y_expr = parser.parse(y_)
         self.x0 = x0
         self.y0 = y0
@@ -25,7 +26,9 @@ class DE(object):
 
     @property
     def sol(self):
-        return self.ans
+        x = [val['x'] for val in self.ans]
+        y = [val['y'] for val in self.ans]
+        return (list(t) for t in zip(*sorted(zip(x,y))))
 
     def euler(self, h , interval):
         """
@@ -174,10 +177,8 @@ class DE(object):
 
 
     def visualize(self):
-        x = [val['x'] for val in self.ans]
-        y = [val['y'] for val in self.ans]
 
-        x,y = (list(t) for t in zip(*sorted(zip(x,y))))
+        x,y = self.sol
         plt.plot(x, np.exp(x), c='y', zorder=1, label='exact solution')
         plt.plot(x, y, c='b', zorder=2, label='approximate solution')
         plt.scatter(x, y, c='r', zorder=3)

@@ -62,3 +62,12 @@ def send_intg_request(fn):
         'f': [{'x': x[i], 'y': round(y[i],3)} for i in range(len(x))],
         'pts': [{'x': pt, 'y': y} for pt in fn.int_pts for y in np.linspace(0,fn.f(pt),100) ]
     }
+
+def send_de_request(eq):
+    x,y = eq.sol
+    return {
+        'error': False,
+        'f': [{'x': x[i], 'y': round(y[i],3)} for i in range(len(x))],
+        'y_': eq.y_,
+        'init': {'x': eq.x0, 'y': eq.y0}
+    }

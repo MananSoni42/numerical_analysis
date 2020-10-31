@@ -4,6 +4,7 @@ from utils.lineq import Solver
 from utils.interp import Points
 from utils.diff import Diff_F
 from utils.intg import Int_F
+from utils.de import DE
 from make_requests import *
 import os
 import warnings
@@ -37,6 +38,10 @@ def diff():
 @app.route('/int')
 def intg():
     return render_template('int.html')
+
+@app.route('/de/ivp')
+def de():
+    return render_template('de.html')
 
 ##############################
 
@@ -163,6 +168,37 @@ def integrate():
 
     return send_intg_request(fn)
 
+@app.route('/api/de', methods=['POST'])
+def solve_de():
+    try:
+        f = request.form['f']
+        from_ = float(request.form['from'])
+        to_ = float(request.form['to'])
+        try:
+            h = float(request.form['h'])
+        except:
+            h = None
+        try:
+            tol = float(request.form['tol'])
+        except:
+            tol = None
+        x0 = float(request.form['x0'])
+        y0 = float(request.form['y0'])
+        method = request.form['method']
+    except Exception as e:
+        return send_error(f'Invalid input data')
+
+    try:
+        eq = DE(f, x0, y0)
+    except Exception as e:
+        return send_error(f'Error while initializing: {str(e)}')
+
+    try:
+        eq.solve(method=method, interval=(from_,to_), h=h, tol=tol)
+    except Exception as e:
+        return send_error(f'Error while calculating: {str(e)}')
+
+    return send_de_request(eq)
 #####################################
 
 if __name__ == '__main__':

@@ -1,0 +1,101 @@
+{% extends "super.html" %}
+
+{% block content %}
+    <div class="row bg-dark text-light text-center mx-5 my-2 p-3">
+        <div class="col-12">
+            Solve any first order differential equation
+        </div>
+    </div>
+
+    <div class="row text-center mx-5 my-2">
+        <div class="col-4 bg-dark text-light py-2">
+            <a class="btn btn-large btn-warning text-dark" href="#">IVP</a>
+        </div>
+        <div class="col-4 bg-dark text-light py-2">
+            <a class="btn btn-large btn-light text-dark" href="#">BVP</a>
+        </div>
+        <div class="col-4 bg-dark text-light py-2">
+            <a class="btn btn-large btn-light text-dark" href="#">Examples</a>
+        </div>
+    </div>
+    <div class="row text-center mx-5 my-2">
+        <div class="col-lg-3 bg-dark text-light py-2">
+            <span class="text-center font-weight-bold">Options</span>
+            <hr class="bg-light mt-1">
+            <form class="p-2" id="params">
+                <div class="form-group row">
+                    <label class="col-sm-5 col-form-label text-left">y' = f(x,y) =</label>
+                    <div class="col-sm-7">
+                      <input type="text" class="form-control" id="f" name="f">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label text-left">x0 </label>
+                    <div class="col-sm-3 my-auto">
+                      <input type="text" class="form-control" id="x0" name="x0">
+                    </div>
+                    <label class="col-sm-3 col-form-label text-left">y(x0) </label>
+                    <div class="col-sm-3 my-auto">
+                      <input type="text" class="form-control" id="y0" name="y0">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label text-left">From</label>
+                    <div class="col-sm-4 my-auto">
+                      <input type="text" class="form-control" id="from" name="from">
+                    </div>
+                    <label class="col-sm-2 col-form-label text-left">To</label>
+                    <div class="col-sm-4 my-auto">
+                      <input type="text" class="form-control" id="to" name="to">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-6 col-form-label text-left">h (step size) </label>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" id="h" name="h">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-8 col-form-label text-left">
+                        tolerance <small>(adaptive euler only)</small>
+                    </label>
+                    <div class="col-sm-4">
+                      <input type="text" class="form-control" id="tol" name="tol" placeholder="-">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label text-left">Method</label>
+                    <div class="col-sm-8">
+                        <select class="custom-select" id="method" name="method">
+                          <option value="euler"> Euler </option>
+                          <option value="modified-euler" selected> Modified euler </option>
+                          <option value="adaptive-euler"> Adaptive euler </option>
+                          <option value="runge-kutta-4"> Runge kutta (4th order) </option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="submit">Find</button>
+            </form>
+            <hr class="bg-light mt-1">
+            <div class="row mt-3">
+                <div class="col-12" id="qjax">
+                    Solution of <span class="text-warning" id="qeq">-</span>
+                    with initial conditions y(<span class="text-warning" id="qx0">-</span>) = (<span class="text-warning" id="qy0">-</span>)
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9 bg-light">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                        <canvas id="chart-main"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- script to run chart.js -->
+    <script src="{{ url_for('static', filename='de.js') }}"></script>
+    <!-- -->
+{% endblock %}
