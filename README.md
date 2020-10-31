@@ -45,11 +45,11 @@ All the libraries have a uniform calling style:
 - **stopmode** (string):  one of ["abs", "rel", "func"]
 	Stopping criterion for any method
 	- **"abs":**  Use absolute error to terminate i.e terminate when:
-            |x_{n} - x_{n-1}| < tol
+	    <img src="https://render.githubusercontent.com/render/math?math=| x_{n} - x_{n-1} | < tol">
     - **"rel":** Use relative error to terminate i.e terminate when:
-            |x_{n} - x_{n-1}| / | x_{n-1} | < tol
+	    <img src="https://render.githubusercontent.com/render/math?math=| \frac{x_{n} - x_{n-1}}{x_{n-1}} | < tol">
     - **"func":** Use the given function to terminate i.e terminate when:
-            | f(x_{n}) | < tol
+	    <img src="https://render.githubusercontent.com/render/math?math=| f(x_{n}) | < tol">
 
 ## 2. Solving linear equations
 - Use this module to solve arbitrarily large linear equations numerically!
