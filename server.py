@@ -172,29 +172,21 @@ def integrate():
 def solve_de():
     try:
         f = request.form['f']
-        from_ = float(request.form['from'])
-        to_ = float(request.form['to'])
-        try:
-            h = float(request.form['h'])
-        except:
-            h = None
-        try:
-            tol = float(request.form['tol'])
-        except:
-            tol = None
-        x0 = float(request.form['x0'])
+        xn = float(request.form['xn'])
+        htol = float(request.form['h-tol'])
+        h,tol = (htol,None) if request.form['htol'] == 'h' else (None,htol)
         y0 = float(request.form['y0'])
         method = request.form['method']
     except Exception as e:
         return send_error(f'Invalid input data')
 
     try:
-        eq = DE(f, x0, y0)
+        eq = DE(f, y0)
     except Exception as e:
         return send_error(f'Error while initializing: {str(e)}')
 
     try:
-        eq.solve(method=method, interval=(from_,to_), h=h, tol=tol)
+        eq.solve(method=method, xn=xn, h=h, tol=tol)
     except Exception as e:
         return send_error(f'Error while calculating: {str(e)}')
 

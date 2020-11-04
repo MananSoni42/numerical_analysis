@@ -32,7 +32,7 @@
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label text-left">x0 </label>
                     <div class="col-sm-3 my-auto">
-                      <input type="text" class="form-control" id="x0" name="x0">
+                      <input type="text" class="form-control" value="0" readonly>
                     </div>
                     <label class="col-sm-3 col-form-label text-left">y(x0) </label>
                     <div class="col-sm-3 my-auto">
@@ -42,31 +42,24 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label text-left">From</label>
                     <div class="col-sm-4 my-auto">
-                      <input type="text" class="form-control" id="from" name="from">
+                      <input type="text" class="form-control" id="from" name="from" value="0" readonly>
                     </div>
                     <label class="col-sm-2 col-form-label text-left">To</label>
                     <div class="col-sm-4 my-auto">
-                      <input type="text" class="form-control" id="to" name="to">
+                      <input type="text" class="form-control" id="xn" name="xn">
                     </div>
                 </div>
+                <input type="hidden" id="htol" name="htol" value="h">
                 <div class="form-group row">
-                    <label class="col-sm-6 col-form-label text-left">h (step size) </label>
+                    <label id="h-tol-label" class="col-sm-6 col-form-label text-left">h (step size) </label>
                     <div class="col-sm-6">
-                      <input type="text" class="form-control" id="h" name="h">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-8 col-form-label text-left">
-                        tolerance <small>(adaptive euler only)</small>
-                    </label>
-                    <div class="col-sm-4">
-                      <input type="text" class="form-control" id="tol" name="tol" placeholder="-">
+                      <input type="text" class="form-control" id="h-tol" name="h-tol">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label text-left">Method</label>
                     <div class="col-sm-8">
-                        <select class="custom-select" id="method" name="method">
+                        <select class="custom-select" id="method" name="method" onchange="set_tol_h(this)">
                           <option value="euler"> Euler </option>
                           <option value="modified-euler" selected> Modified euler </option>
                           <option value="adaptive-euler"> Adaptive euler </option>

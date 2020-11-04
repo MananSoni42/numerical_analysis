@@ -17,16 +17,6 @@ var chart1 = new Chart(ctx, {
             order: 1,
         }, {
             type: 'scatter',
-            label: 'initial point',
-            data: [
-                {'x': 1, 'y': 4},
-              ],
-            borderColor: "#000000",
-            fill: false,
-            radius: 5,
-            order: 3,
-        }, {
-            type: 'scatter',
             label: 'function points',
             data: [
                 {'x': 12, 'y': 0},
@@ -72,6 +62,16 @@ function get_int_eq(ans) {
     return `$$ \\int_{${from}}^{${to}} ${f} \\,dx \\approx ${ans.toString()} $$`;
 }
 
+function set_tol_h(obj) {
+    if (['euler', 'modified-euler', 'runge-kutta-4'].includes(obj.value)) {
+        $('#h-tol-label').html('h (step size)')
+        $('#htol').val("h");
+    } else {
+        $('#h-tol-label').html('Tolerance')
+        $('#htol').val("tol");
+    }
+}
+
 // Send a request to the server
 $("#params").submit(function(e) {
     e.preventDefault(); // avoid to execute the actual submit of the form.
@@ -87,7 +87,6 @@ $("#params").submit(function(e) {
                }
                else {
                    chart1.data.datasets[0].data = response['f']
-                   chart1.data.datasets[1].data = response['init']
                    chart1.data.datasets[2].data = response['f']
                    chart1.update()
                    $("#qeq").html("$$ y' = " + response['y_'] + "$$")
