@@ -30,7 +30,6 @@ class DE(object):
     def euler(self, h , interval):
         """
         Euler's method
-        extended to handle arbitrary intervals
         """
         self.ans = []
         a,b = interval
@@ -44,7 +43,6 @@ class DE(object):
     def modified_euler(self, h , interval):
         """
         Modified Euler's method
-        extended to handle arbitrary intervals
         """
         self.ans = []
         a,b = interval
@@ -60,7 +58,6 @@ class DE(object):
         """
         Adaptive Euler's method
         Adjusts step size according to the tolerance provided
-        extended to handle arbitrary intervals
         """
         self.ans = []
         a,b = interval
@@ -90,7 +87,6 @@ class DE(object):
     def runge_kutta(self, h , interval):
         """
         Runge kutta method of order 4
-        extended to handle arbitrary intervals
         """
         self.ans = []
         a,b = interval
@@ -105,9 +101,72 @@ class DE(object):
             y = y + (1/6) * (k1 + 2*k2+ 2*k3 + k4)
             x = x + h
 
+    def adam_bashforth_2(self, h, interval):
+        """
+        Adom bashforth method of order 2
+        Uses euler's method for initial points
+        """
+        self.ans = []
+        a,b = interval
+        x = self.x0
+        y = self.y0
+        order = 2
+        while x <= b:
+            self.ans.append({'x': x, 'y': y})
+            if len(self.ans) < order:
+                y = y + h * self.f(x,y)
+            else:
+                xp,yp = self.ans[-2]['x'], self.ans[-2]['y']
+                y = y + (h/2) * (3*self.f(x,y) - self.f(xp,yp))
+            x = x + h
+
+    def adam_bashforth_3(self, h, interval):
+        """
+        Adom bashforth method of order 3
+        Uses euler's method for initial points
+        """
+        self.ans = []
+        a,b = interval
+        x = self.x0
+        y = self.y0
+        order = 3
+        while x <= b:
+            self.ans.append({'x': x, 'y': y})
+            if len(self.ans) < order:
+                y = y + h * self.f(x,y)
+            else:
+                xp,yp = self.ans[-2]['x'], self.ans[-2]['y']
+                xpp,ypp = self.ans[-3]['x'], self.ans[-3]['y']
+                y = y + (h/12) * (23*self.f(x,y) - 16*self.f(xp,yp) + 5*self.f(xpp,ypp))
+            x = x + h
+
+    def adam_bashforth_4(self, h, interval):
+        """
+        Adom bashforth method of order 4
+        Uses euler's method for initial points
+        """
+        self.ans = []
+        a,b = interval
+        x = self.x0
+        y = self.y0
+        order = 4
+        while x <= b:
+            self.ans.append({'x': x, 'y': y})
+            if len(self.ans) < order:
+                y = y + h * self.f(x,y)
+            else:
+                xp,yp     = self.ans[-2]['x'], self.ans[-2]['y']
+                xpp,ypp   = self.ans[-3]['x'], self.ans[-3]['y']
+                xppp,yppp = self.ans[-4]['x'], self.ans[-4]['y']
+                y = y + (h/24) * (55*self.f(x,y) - 59*self.f(xp,yp) + 37*self.f(xpp,ypp) - 9*self.f(xppp, yppp))
+            x = x + h
+
     def solve(self, method, xn, h=None, tol=None):
         method = method.lower()
         interval = (0,xn)
+
+        if (xn <= 0):
+            raise Exception('Right endpoint can\'t be negative')
 
         if method in ['euler', 'modified-euler', 'runge-kutta-4'] and not h:
             raise Exception(f'Method `{method}` requires step size `h` to be specified')
@@ -122,6 +181,12 @@ class DE(object):
             self.adaptive_euler(interval, tol)
         elif method == 'runge-kutta-4':
             self.runge_kutta(h, interval)
+        elif method == 'adom-bashforth-2':
+            self.adam_bashforth_2(h, interval)
+        elif method == 'adom-bashforth-3':
+            self.adam_bashforth_3(h, interval)
+        elif method == 'adom-bashforth-4':
+            self.adam_bashforth_4(h, interval)
         else:
             raise Exception(f'Method `{method}` not implemented')
 
@@ -132,6 +197,7 @@ class DE(object):
 
         x,y = (list(t) for t in zip(*sorted(zip(x,y))))
         plt.plot(x, y, c='b', zorder=2, label='approximate solution')
+        plt.plot(x, np.exp(x), c='y', zorder=2, label='exact solution')
         plt.scatter(x, y, c='r', zorder=3)
         plt.scatter(self.x0, self.y0, c='k', zorder=3)
         plt.legend(loc="upper left")
