@@ -14,7 +14,7 @@ var chart1 = new Chart(ctx, {
             borderColor: "#3e95cd",
             fill: false,
             radius: 0,
-            order: 1,
+            order: 2,
         }, {
             type: 'scatter',
             label: 'function points',
@@ -28,7 +28,7 @@ var chart1 = new Chart(ctx, {
             borderColor: "#d11313",
             fill: false,
             radius: 3,
-            order: 2,
+            order: 1,
         }]
     },
     options: {
@@ -87,7 +87,7 @@ $("#params").submit(function(e) {
                }
                else {
                    chart1.data.datasets[0].data = response['f']
-                   chart1.data.datasets[2].data = response['f']
+                   chart1.data.datasets[1].data = response['f']
                    chart1.update()
                    $("#qeq").html("$$ y' = " + response['y_'] + "$$")
                    MathJax.Hub.Queue(["Typeset", MathJax.Hub, 'qjax']);
