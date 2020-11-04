@@ -62,13 +62,17 @@ function get_int_eq(ans) {
     return `$$ \\int_{${from}}^{${to}} ${f} \\,dx \\approx ${ans.toString()} $$`;
 }
 
+$('#super-tol').hide();
 function set_tol_h(obj) {
-    if (['euler', 'modified-euler', 'runge-kutta-4'].includes(obj.value)) {
-        $('#h-tol-label').html('h (step size)')
-        $('#htol').val("h");
+    if (['adam-milne-pc'].includes(obj.value)) {
+        $('#super-tol').show();
+        $('#super-h').show();
+    } else if (['adaptive-euler'].includes(obj.value)) {
+        $('#super-tol').show();
+        $('#super-h').hide();
     } else {
-        $('#h-tol-label').html('Tolerance')
-        $('#htol').val("tol");
+        $('#super-tol').hide();
+        $('#super-h').show();
     }
 }
 

@@ -50,11 +50,16 @@
                       <input type="text" class="form-control" id="xn" name="xn">
                     </div>
                 </div>
-                <input type="hidden" id="htol" name="htol" value="h">
-                <div class="form-group row">
+                <div class="form-group row" id="super-h">
                     <label id="h-tol-label" class="col-sm-6 col-form-label text-left">h (step size) </label>
                     <div class="col-sm-6">
-                      <input type="text" class="form-control" id="h-tol" name="h-tol">
+                      <input type="text" class="form-control" id="h" name="h">
+                    </div>
+                </div>
+                <div class="form-group row" id="super-tol">
+                    <label id="h-tol-label" class="col-sm-6 col-form-label text-left">Tolerance </label>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" id="tol" name="tol">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -65,6 +70,12 @@
                           <option value="modified-euler" selected> Modified euler </option>
                           <option value="adaptive-euler"> Adaptive euler </option>
                           <option value="runge-kutta-4"> Runge kutta (4th order) </option>
+                          <option value="adam-bashforth-2"> Adam bashforth (order 2) </option>
+                          <option value="adam-bashforth-3"> Adam bashforth (order 3) </option>
+                          <option value="adam-bashforth-4"> Adam bashforth (order 4) </option>
+                          <option value="adam-bashforth-pc"> Adam bashforth Predictor corrector </option>
+                          <option value="milne-pc"> Milne predictor corrector </option>
+                          <option value="adam-milne-pc"> Adam Milne predictor corrector </option>
                         </select>
                     </div>
                 </div>

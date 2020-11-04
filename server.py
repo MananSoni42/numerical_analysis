@@ -173,8 +173,14 @@ def solve_de():
     try:
         f = request.form['f']
         xn = float(request.form['xn'])
-        htol = float(request.form['h-tol'])
-        h,tol = (htol,None) if request.form['htol'] == 'h' else (None,htol)
+        try:
+            h = float(request.form['h'])
+        except:
+            h = None
+        try:
+            tol = float(request.form['tol'])
+        except:
+            tol = None
         y0 = float(request.form['y0'])
         method = request.form['method']
     except Exception as e:
