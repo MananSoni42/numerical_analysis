@@ -11,7 +11,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.1"></script>
 	<script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
-    <script src="{{ url_for('static', filename='chartjs-plugin-annotation.js') }}"></script>
     <!-- -->
 
     <!-- mathjax -->
@@ -70,7 +69,7 @@
                           <a class="nav-link" href="{{ url_for('intg') }}">Integration<span class="sr-only">(current)</span></a>
                       </li>
                       <li class="nav-item mx-3">
-                        <a class="nav-link" href="{{ url_for('de') }}">Differential equations<span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="{{ url_for('de_ivp') }}">Differential equations<span class="sr-only">(current)</span></a>
                       </li>
                     </ul>
                   </div>

@@ -1,12 +1,6 @@
 import numpy as np
 from utils.de import DE
 
-'''
-Examples
-
-1. y' = y; y(0) = 1; (-3,8) (euler)
-'''
-
 def e_x(x):
     '''
     Given x returns e^x

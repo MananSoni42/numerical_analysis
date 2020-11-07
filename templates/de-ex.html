@@ -1,0 +1,115 @@
+{% extends "super.html" %}
+
+{% block content %}
+    <div class="row bg-dark text-light text-center mx-5 my-2 p-3">
+        <div class="col-12">
+            Examples to show numerical stability / instability of the implemented numerical algorithms
+        </div>
+    </div>
+    <div class="row text-center mx-5 my-2">
+        <div class="col-4 bg-dark text-light py-2">
+            <a class="btn btn-large btn-light text-dark" href="{{ url_for('de_ivp') }}">IVP</a>
+        </div>
+        <div class="col-4 bg-dark text-light py-2">
+            <a class="btn btn-large btn-light text-dark" href="{{ url_for('de_bvp') }}">BVP</a>
+        </div>
+        <div class="col-4 bg-dark text-light py-2">
+            <a class="btn btn-large btn-warning text-dark" href="{{ url_for('de_ex') }}">Examples</a>
+        </div>
+    </div>
+    <div class="row text-center mx-5 my-2">
+        <div class="col-lg-3 bg-dark text-light py-2">
+            <span class="text-center font-weight-bold">Examples</span>
+            <hr class="bg-light mt-1">
+            <form class="p-2" id="params">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label text-left">Example </label>
+                    <div class="col-sm-8">
+                        <select class="custom-select" id="example" name="example" onchange="set_f_y0(this)">
+                          <option value="1, y, 1, 4, 0.1" selected> 1 </option>
+                          <option value="2, -15*y, 1, 1, 0.1"> 2 </option>
+                          <option value="3, -50*(y-cos(x)), 0, 4, 0.04"> 3 </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-5 col-form-label text-left">y' = f(x,y) = </label>
+                    <div class="col-sm-7">
+                      <input type="text" class="form-control" id="f" name="f" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label text-left">x0 </label>
+                    <div class="col-sm-3 my-auto">
+                      <input type="text" class="form-control" value="0" readonly>
+                    </div>
+                    <label class="col-sm-3 col-form-label text-left">y(x0) </label>
+                    <div class="col-sm-3 my-auto">
+                      <input type="text" class="form-control" id="y0" name="y0" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label text-left">From</label>
+                    <div class="col-sm-4 my-auto">
+                      <input type="text" class="form-control" id="x0" name="x0" value="0" readonly>
+                    </div>
+                    <label class="col-sm-2 col-form-label text-left">To</label>
+                    <div class="col-sm-4 my-auto">
+                      <input type="text" class="form-control" id="xn" name="xn">
+                    </div>
+                </div>
+                <div class="form-group row" id="super-h">
+                    <label id="h-tol-label" class="col-sm-6 col-form-label text-left">h (step size) </label>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" id="h" name="h">
+                    </div>
+                </div>
+                <div class="form-group row" id="super-tol">
+                    <label id="h-tol-label" class="col-sm-6 col-form-label text-left">Tolerance </label>
+                    <div class="col-sm-6">
+                      <input type="text" class="form-control" id="tol" name="tol">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label text-left">Method</label>
+                    <div class="col-sm-8">
+                        <select class="custom-select" id="method" name="method" onchange="set_tol_h(this)">
+                          <option value="euler"> Euler </option>
+                          <option value="modified-euler" selected> Modified euler </option>
+                          <option value="adaptive-euler"> Adaptive euler </option>
+                          <option value="runge-kutta-4"> Runge kutta (4th order) </option>
+                          <option value="adam-bashforth-2"> Adam bashforth (order 2) </option>
+                          <option value="adam-bashforth-3"> Adam bashforth (order 3) </option>
+                          <option value="adam-bashforth-4"> Adam bashforth (order 4) </option>
+                          <option value="adam-bashforth-pc"> Adam bashforth Predictor corrector </option>
+                          <option value="milne-pc"> Milne predictor corrector </option>
+                          <option value="adam-milne-pc"> Adam Milne predictor corrector </option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="submit">Find</button>
+            </form>
+            <hr class="bg-light mt-1">
+            <div class="row mt-3">
+                <div class="col-12" id="qjax">
+                    Solution of <span class="text-warning" id="qeq">-</span>
+                    with initial conditions y(<span class="text-warning" id="qx0">-</span>) = (<span class="text-warning" id="qy0">-</span>)
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9 bg-light">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                        <canvas id="chart-main"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- script to run chart.js -->
+    <script> var hidden = false; </script>
+    <script src="{{ url_for('static', filename='de.js') }}"></script>
+    <!-- -->
+{% endblock %}

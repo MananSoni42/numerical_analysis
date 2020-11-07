@@ -40,8 +40,16 @@ def intg():
     return render_template('int.html')
 
 @app.route('/de/ivp')
-def de():
-    return render_template('de.html')
+def de_ivp():
+    return render_template('de-ivp.html')
+
+@app.route('/de/bvp')
+def de_bvp():
+    return render_template('de-bvp.html')
+
+@app.route('/de/ex')
+def de_ex():
+    return render_template('de-ex.html')
 
 ##############################
 
@@ -183,6 +191,10 @@ def solve_de():
             tol = None
         y0 = float(request.form['y0'])
         method = request.form['method']
+        try:
+            ex_num = request.form['example'].split(",")[0]
+        except:
+            ex_num = None
     except Exception as e:
         return send_error(f'Invalid input data')
 
@@ -196,7 +208,7 @@ def solve_de():
     except Exception as e:
         return send_error(f'Error while calculating: {str(e)}')
 
-    return send_de_request(eq)
+    return send_de_request(eq, ex_num)
 #####################################
 
 if __name__ == '__main__':

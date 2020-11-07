@@ -3,6 +3,12 @@ import matplotlib.pyplot as plt
 from py_expression_eval import Parser
 parser = Parser()
 
+sols = {
+    '1': lambda x: np.exp(x),
+    '2': lambda x: np.exp(-15*x),
+    '3': lambda x: (50/2501)*(np.sin(x) + 50*np.cos(x)) - (2500/2501)*np.exp(-50*x),
+}
+
 class DE(object):
     """
     Solve first order Differential equations of the form:

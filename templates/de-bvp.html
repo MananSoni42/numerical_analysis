@@ -6,19 +6,17 @@
             Solve any first order differential equation
         </div>
     </div>
-    <!--
     <div class="row text-center mx-5 my-2">
         <div class="col-4 bg-dark text-light py-2">
-            <a class="btn btn-large btn-warning text-dark" href="#">IVP</a>
+            <a class="btn btn-large btn-light text-dark" href="{{ url_for('de_ivp') }}">IVP</a>
         </div>
         <div class="col-4 bg-dark text-light py-2">
-            <a class="btn btn-large btn-light text-dark" href="#">BVP</a>
+            <a class="btn btn-large btn-warning text-dark" href="{{ url_for('de_bvp') }}">BVP</a>
         </div>
         <div class="col-4 bg-dark text-light py-2">
-            <a class="btn btn-large btn-light text-dark" href="#">Examples</a>
+            <a class="btn btn-large btn-light text-dark" href="{{ url_for('de_ex') }}">Examples</a>
         </div>
     </div>
-    -->
     <div class="row text-center mx-5 my-2">
         <div class="col-lg-3 bg-dark text-light py-2">
             <span class="text-center font-weight-bold">Options</span>
@@ -101,6 +99,7 @@
     </div>
 
     <!-- script to run chart.js -->
+    <script> var hidden = true; </script>    
     <script src="{{ url_for('static', filename='de.js') }}"></script>
     <!-- -->
 {% endblock %}

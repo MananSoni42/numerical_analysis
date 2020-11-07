@@ -1,6 +1,7 @@
 from utils.zeroes import F
 from utils.lineq import Solver
 from utils.interp import Points
+from utils.de import sols
 import numpy as np
 
 def send_error(message):
@@ -63,11 +64,12 @@ def send_intg_request(fn):
         'pts': [{'x': pt, 'y': y} for pt in fn.int_pts for y in np.linspace(0,fn.f(pt),100) ]
     }
 
-def send_de_request(eq):
+def send_de_request(eq, ex_num=None):
     x,y = eq.sol
     return {
         'error': False,
         'f': [{'x': x[i], 'y': round(y[i],3)} for i in range(len(x))],
         'y_': eq.y_,
-        'init': {'x': eq.x0, 'y': eq.y0}
+        'init': {'x': eq.x0, 'y': eq.y0},
+        'exact': [{'x': x[i], 'y': sols[ex_num](x[i])} for i in range(len(x))] if ex_num else []
     }

@@ -29,6 +29,21 @@ var chart1 = new Chart(ctx, {
             fill: false,
             radius: 3,
             order: 1,
+        }, {
+            type: 'line',
+            label: 'exact solution',
+            data: [
+                {'x': 13, 'y': 0},
+                {'x': 9, 'y': 14},
+                {'x': 1, 'y': 4},
+                {'x': -1, 'y': 5},
+                {'x': -3, 'y': 0},
+              ],
+            borderColor: "#d0e300",
+            hidden: hidden,
+            fill: false,
+            radius: 0,
+            order: 3,
         }]
     },
     options: {
@@ -62,7 +77,18 @@ function get_int_eq(ans) {
     return `$$ \\int_{${from}}^{${to}} ${f} \\,dx \\approx ${ans.toString()} $$`;
 }
 
-$('#super-tol').hide();
+function set_form(inp) {
+    var arr = inp.split(",")
+    $("#f").val(arr[1]);
+    $("#y0").val(arr[2]);
+    $("#xn").val(arr[3]);
+    $("#h").val(arr[4]);
+}
+
+function set_f_y0(obj) {
+    set_form(obj.value);
+}
+
 function set_tol_h(obj) {
     if (['adam-milne-pc'].includes(obj.value)) {
         $('#super-tol').show();
@@ -75,6 +101,11 @@ function set_tol_h(obj) {
         $('#super-h').show();
     }
 }
+
+$( document ).ready(function() {
+    $('#super-tol').hide();
+    set_form("1, y, 1, 4, 0.1");
+});
 
 // Send a request to the server
 $("#params").submit(function(e) {
@@ -92,9 +123,14 @@ $("#params").submit(function(e) {
                else {
                    chart1.data.datasets[0].data = response['f']
                    chart1.data.datasets[1].data = response['f']
+                   if (!hidden) {
+                       chart1.data.datasets[2].data = response['exact']
+                   }
                    chart1.update()
+
                    $("#qeq").html("$$ y' = " + response['y_'] + "$$")
                    MathJax.Hub.Queue(["Typeset", MathJax.Hub, 'qjax']);
+
                    $("#qy0").html(response['init']['y'])
                    $("#qx0").html(response['init']['x'])
                }
