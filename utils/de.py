@@ -3,6 +3,12 @@ import matplotlib.pyplot as plt
 from py_expression_eval import Parser
 parser = Parser()
 
+sols = {
+    '1': lambda x: np.exp(x),
+    '2': lambda x: np.exp(-15*x),
+    '3': lambda x: (50/2501)*(np.sin(x) + 50*np.cos(x)) - (2500/2501)*np.exp(-50*x),
+}
+
 class DE(object):
     """
     Solve first order Differential equations of the form:
@@ -15,9 +21,10 @@ class DE(object):
         * RK of order 4
     """
 
-    def __init__(self, y_, y0):
+    def __init__(self, y_, x0, y0):
+        self.y_ = y_
         self.y_expr = parser.parse(y_)
-        self.x0 = 0
+        self.x0 = x0 if x0 else 0
         self.y0 = y0
 
     def f(self, x, y):
@@ -25,7 +32,9 @@ class DE(object):
 
     @property
     def sol(self):
-        return self.ans
+        x = [val['x'] for val in self.ans]
+        y = [val['y'] for val in self.ans]
+        return (list(t) for t in zip(*sorted(zip(x,y))))
 
     def euler(self, h , interval):
         """
@@ -233,17 +242,20 @@ class DE(object):
                     y = y0 + (h/24) * (9*self.f(x+h,y0) + 19*self.f(x,y) - 5*self.f(xp,yp) + self.f(xpp, ypp))
             x = x + h
 
-    def solve(self, method, xn, h=None, tol=None):
+    def solve(self, method, interval, h=None, tol=None):
         method = method.lower()
-        interval = (0,xn)
 
-        if (xn <= 0):
-            raise Exception('Right endpoint can\'t be negative')
+        if (interval[1] <= interval[0]):
+            raise Exception('Right endpoint can\'t be less than left endpoint')
+
+        if (interval[0] != self.x0):
+            raise Exception(f'Left endpoint must match x0 = {self.x0}')
 
         if method in ['euler', 'modified-euler', 'runge-kutta-4', 'adam-milne-pc'] and not h:
             raise Exception(f'Method `{method}` requires step size `h` to be specified')
         if method in ['adaptive-euler', 'adam-milne-pc'] and not tol:
             raise Exception(f'Method `{method}` requires a tolerance `tol` to be specified')
+
 
         if method == 'euler':
             self.euler(h, interval)

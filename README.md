@@ -14,6 +14,7 @@ This repository contains visualizations for the course Numerical Analysis (MATH 
 * [3. Polynomial interpolation](#3-polynomial-interpolation)
 * [4. Numerical Differentiation](#4-numerical-differentiation)
 * [5. Numerical Integration](#5-numerical-integration)
+* [6. Solving Differential Equations](#6-solving-differential-equations)
 * [Installing locally](#installing-locally)
 * [Contributing](#contributing)
 * [License](#license)
@@ -25,6 +26,7 @@ All the libraries have a uniform calling style:
 * Perform calculation using the given method (```method()```)
 * Answer is available in ```C.sol```
 * Visualize the answer using ```C.visualize()```
+* An example for each module is given files: ```example-<module>-<name>.py```
 
 | Module | Class ```C```   | ```method()```   |
 |--------|-----------------|------------------|
@@ -33,11 +35,12 @@ All the libraries have a uniform calling style:
 | 3      | Points          | interpolate()    |
 | 4      | Diff_F           | differentiate()   |
 | 5      | Int_F           | integrate()      |
+| 6      | DE              | solve()          |
 
 ## 1. Finding zeroes
 - Use this module to find zeroes for any function you like!
 - visualizations available
-- A working example is provdided in ```example-find-zeroes.py```
+- A working example is provdided in ```example-1-find-zeroes.py```
 
 ### Parameters:
 - **initial** (string): comma seperated list of values for the initial parameters
@@ -55,7 +58,7 @@ All the libraries have a uniform calling style:
 ## 2. Solving linear equations
 - Use this module to solve arbitrarily large linear equations numerically!
 - visualizations not available
-- A working example is provdided in ```example-solve-lineq.py```
+- A working example is provdided in ```example-2-solve-lineq.py```
 
 ### Parameters:
 - **method** (string):  one of ["exact", "gauss-elim", "jacobi", "gauss-seidel"]
@@ -71,7 +74,7 @@ All the libraries have a uniform calling style:
 ## 3. Polynomial interpolation
 - Use this module to interpolate from an existing table of data using polynomials
 - visualizations available
-- A working example is provdided in ```example-interpolate.py```
+- A working example is provdided in ```example-3-interpolate.py```
 
 ### Parameters:
 - None
@@ -79,7 +82,7 @@ All the libraries have a uniform calling style:
 ## 4. Numerical Differentiation
 - Use this module to numerically differentiate a given function
 - visualizations available
-- A working example is provdided in ```example-differentiate.py```
+- A working example is provdided in ```example-4-differentiate.py```
 
 ### Parameters:
 - **method** (string):  one of ["forward", "central", "backward"]
@@ -90,7 +93,7 @@ All the libraries have a uniform calling style:
 ## 5. Numerical Integration
 - Use this module to numerically integrate a given function
 - visualizations available
-- A working example is provdided in ```example-integrate.py```
+- A working example is provdided in ```example-5-integrate.py```
 
 ### Parameters:
 - **method** (string):  one of ["trap", "simp", "simp_3/8", "gauss_legendre"]
@@ -102,6 +105,14 @@ All the libraries have a uniform calling style:
 - **from_** (float): Point from which to integrate
 - **to_** (float): Point till which to integrate
 - **num_pts** (string): number of points to use (between ```from_``` and ```to_```)
+
+## 6. Solving Differential Equations
+- Use this module to solve first order Differential equations
+- visualizations available
+- A working example is provdided in ```example-6-diff-eq.py```
+
+### Parameters:
+- TODO
 
 ## Installing locally
 This project requires python (3.7+)
