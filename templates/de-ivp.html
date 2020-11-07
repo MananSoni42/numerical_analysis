@@ -3,18 +3,24 @@
 {% block content %}
     <div class="row bg-dark text-light text-center mx-5 my-2 p-3">
         <div class="col-12">
-            Solve any first order differential equation
+            Solve any first order Differential Equation
         </div>
     </div>
     <div class="row text-center mx-5 my-2">
         <div class="col-4 bg-dark text-light py-2">
-            <a class="btn btn-large btn-warning text-dark" href="{{ url_for('de_ivp') }}">IVP</a>
+            <a class="btn btn-large btn-warning text-dark" href="{{ url_for('de_ivp') }}">
+                <bold>I</bold><small>nitial</small> <bold>V</bold><small>alue</small> <bold>P</bold><small>roblems</small>
+            </a>
         </div>
         <div class="col-4 bg-dark text-light py-2">
-            <a class="btn btn-large btn-light text-dark" href="{{ url_for('de_bvp') }}">BVP</a>
+            <a class="btn btn-large btn-light text-dark" href="{{ url_for('de_bvp') }}">
+                <bold>B</bold><small>oundary</small> <bold>V</bold><small>alue</small> <bold>P</bold><small>roblems</small>
+            </a>
         </div>
         <div class="col-4 bg-dark text-light py-2">
-            <a class="btn btn-large btn-light text-dark" href="{{ url_for('de_ex') }}">Examples</a>
+            <a class="btn btn-large btn-light text-dark" href="{{ url_for('de_ex') }}">
+                Examples
+            </a>
         </div>
     </div>
     <div class="row text-center mx-5 my-2">
@@ -31,7 +37,7 @@
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label text-left">x0 </label>
                     <div class="col-sm-3 my-auto">
-                      <input type="text" class="form-control" value="0" readonly>
+                      <input type="text" class="form-control" id="x0" name="x0" value="0">
                     </div>
                     <label class="col-sm-3 col-form-label text-left">y(x0) </label>
                     <div class="col-sm-3 my-auto">
@@ -41,11 +47,11 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label text-left">From</label>
                     <div class="col-sm-4 my-auto">
-                      <input type="text" class="form-control" id="from" name="from" value="0" readonly>
+                      <input type="text" class="form-control" id="from" name="from" value="0">
                     </div>
                     <label class="col-sm-2 col-form-label text-left">To</label>
                     <div class="col-sm-4 my-auto">
-                      <input type="text" class="form-control" id="xn" name="xn">
+                      <input type="text" class="form-control" id="to" name="to">
                     </div>
                 </div>
                 <div class="form-group row" id="super-h">

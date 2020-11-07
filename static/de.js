@@ -80,9 +80,11 @@ function get_int_eq(ans) {
 function set_form(inp) {
     var arr = inp.split(",")
     $("#f").val(arr[1]);
-    $("#y0").val(arr[2]);
-    $("#xn").val(arr[3]);
-    $("#h").val(arr[4]);
+    $("#x0").val(arr[2]);
+    $("#y0").val(arr[3]);
+    $("#from").val(arr[4]);
+    $("#to").val(arr[5]);
+    $("#h").val(arr[6]);
 }
 
 function set_f_y0(obj) {
@@ -104,7 +106,7 @@ function set_tol_h(obj) {
 
 $( document ).ready(function() {
     $('#super-tol').hide();
-    set_form("1, y, 1, 4, 0.1");
+    set_form("1, y, 0, 1, 0, 4, 0.1");
 });
 
 // Send a request to the server

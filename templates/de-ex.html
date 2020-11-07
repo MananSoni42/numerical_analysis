@@ -8,13 +8,19 @@
     </div>
     <div class="row text-center mx-5 my-2">
         <div class="col-4 bg-dark text-light py-2">
-            <a class="btn btn-large btn-light text-dark" href="{{ url_for('de_ivp') }}">IVP</a>
+            <a class="btn btn-large btn-light text-dark" href="{{ url_for('de_ivp') }}">
+                <bold>I</bold><small>nitial</small> <bold>V</bold><small>alue</small> <bold>P</bold><small>roblems</small>
+            </a>
         </div>
         <div class="col-4 bg-dark text-light py-2">
-            <a class="btn btn-large btn-light text-dark" href="{{ url_for('de_bvp') }}">BVP</a>
+            <a class="btn btn-large btn-light text-dark" href="{{ url_for('de_bvp') }}">
+                <bold>B</bold><small>oundary</small> <bold>V</bold><small>alue</small> <bold>P</bold><small>roblems</small>
+            </a>
         </div>
         <div class="col-4 bg-dark text-light py-2">
-            <a class="btn btn-large btn-warning text-dark" href="{{ url_for('de_ex') }}">Examples</a>
+            <a class="btn btn-large btn-warning text-dark" href="{{ url_for('de_ex') }}">
+                Examples
+            </a>
         </div>
     </div>
     <div class="row text-center mx-5 my-2">
@@ -26,9 +32,9 @@
                     <label class="col-sm-4 col-form-label text-left">Example </label>
                     <div class="col-sm-8">
                         <select class="custom-select" id="example" name="example" onchange="set_f_y0(this)">
-                          <option value="1, y, 1, 4, 0.1" selected> 1 </option>
-                          <option value="2, -15*y, 1, 1, 0.1"> 2 </option>
-                          <option value="3, -50*(y-cos(x)), 0, 4, 0.04"> 3 </option>
+                          <option value="1, y, 0, 1, 0, 4, 0.1" selected> 1 (IVP)</option>
+                          <option value="2, -15*y, 0, 1, 0, 1, 0.1"> 2 (stiff DE) (IVP)</option>
+                          <option value="3, -50*(y-cos(x)), 0, 0, 0, 4, 0.04"> 3 (stiff DE) (IVP)</option>
                         </select>
                     </div>
                 </div>
@@ -41,7 +47,7 @@
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label text-left">x0 </label>
                     <div class="col-sm-3 my-auto">
-                      <input type="text" class="form-control" value="0" readonly>
+                      <input type="text" class="form-control" id="x0" name="x0" value="0" readonly>
                     </div>
                     <label class="col-sm-3 col-form-label text-left">y(x0) </label>
                     <div class="col-sm-3 my-auto">
@@ -51,11 +57,11 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label text-left">From</label>
                     <div class="col-sm-4 my-auto">
-                      <input type="text" class="form-control" id="x0" name="x0" value="0" readonly>
+                      <input type="text" class="form-control" id="from" name="from" value="0" readonly>
                     </div>
                     <label class="col-sm-2 col-form-label text-left">To</label>
                     <div class="col-sm-4 my-auto">
-                      <input type="text" class="form-control" id="xn" name="xn">
+                      <input type="text" class="form-control" id="to" name="to">
                     </div>
                 </div>
                 <div class="form-group row" id="super-h">
