@@ -215,4 +215,4 @@ def solve_de():
 #####################################
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

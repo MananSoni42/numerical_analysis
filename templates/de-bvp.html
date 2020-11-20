@@ -27,60 +27,49 @@
         <div class="col-lg-3 bg-dark text-light py-2">
             <span class="text-center font-weight-bold">Options</span>
             <hr class="bg-light mt-1">
-            <form class="p-2" id="params">
-                <div class="form-group row">
-                    <label class="col-sm-5 col-form-label text-left">y' = f(x,y) =</label>
-                    <div class="col-sm-7">
-                      <input type="text" class="form-control" id="f" name="f">
+            <form class="p-2 mb-2" id="params">
+                <div class="form-group row p-0">
+                    <label class="col-sm-1.5 col-form-label text-left px-0" >y' = </label>
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control" id="a" name="a">
+                    </div>
+                    <label class="col-sm-1.5 col-form-label text-left px-0">x +</label>
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control" id="b" name="b">
+                    </div>
+                    <label class="col-sm-1.5 col-form-label text-left">y +</label>
+                    <div class="col-sm-3">
+                      <input type="text" class="form-control" id="c" name="c">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-3 col-form-label text-left">x0 </label>
-                    <div class="col-sm-3 my-auto">
-                      <input type="text" class="form-control" id="x0" name="x0" value="0">
-                    </div>
-                    <label class="col-sm-3 col-form-label text-left">y(x0) </label>
-                    <div class="col-sm-3 my-auto">
-                      <input type="text" class="form-control" id="y0" name="y0">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label text-left">From</label>
+                    <label class="col-sm-2 col-form-label text-left">x0</label>
                     <div class="col-sm-4 my-auto">
                       <input type="text" class="form-control" id="from" name="from" value="0">
                     </div>
-                    <label class="col-sm-2 col-form-label text-left">To</label>
+                    <label class="col-sm-2 col-form-label text-left">xn</label>
                     <div class="col-sm-4 my-auto">
                       <input type="text" class="form-control" id="to" name="to">
+                    </div>
+                </div>
+                <label class="col-sm-12 col-form-label text-center mb-2" >Boundary conditions</label>
+                <div class="form-group row">
+                    <div class="col-sm-3 my-auto">
+                      <input type="text" class="form-control" id="b1-0" name="b1-0">
+                    </div>
+                    <label class="col-sm-2 col-form-label text-left px-0">x0 +</label>
+                    <div class="col-sm-3 my-auto">
+                      <input type="text" class="form-control" id="b1-1" name="b1-1">
+                    </div>
+                    <label class="col-sm-2 col-form-label text-left px-0">xn =</label>
+                    <div class="col-sm-2 my-auto px-0">
+                      <input type="text" class="form-control" id="b1-2" name="b1-2">
                     </div>
                 </div>
                 <div class="form-group row" id="super-h">
                     <label id="h-tol-label" class="col-sm-6 col-form-label text-left">h (step size) </label>
                     <div class="col-sm-6">
                       <input type="text" class="form-control" id="h" name="h">
-                    </div>
-                </div>
-                <div class="form-group row" id="super-tol">
-                    <label id="h-tol-label" class="col-sm-6 col-form-label text-left">Tolerance </label>
-                    <div class="col-sm-6">
-                      <input type="text" class="form-control" id="tol" name="tol">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label text-left">Method</label>
-                    <div class="col-sm-8">
-                        <select class="custom-select" id="method" name="method" onchange="set_tol_h(this)">
-                          <option value="euler"> Euler </option>
-                          <option value="modified-euler" selected> Modified euler </option>
-                          <option value="adaptive-euler"> Adaptive euler </option>
-                          <option value="runge-kutta-4"> Runge kutta (4th order) </option>
-                          <option value="adam-bashforth-2"> Adam bashforth (order 2) </option>
-                          <option value="adam-bashforth-3"> Adam bashforth (order 3) </option>
-                          <option value="adam-bashforth-4"> Adam bashforth (order 4) </option>
-                          <option value="adam-bashforth-pc"> Adam bashforth Predictor corrector </option>
-                          <option value="milne-pc"> Milne predictor corrector </option>
-                          <option value="adam-milne-pc"> Adam Milne predictor corrector </option>
-                        </select>
                     </div>
                 </div>
                 <button class="btn btn-primary" type="submit">Find</button>
