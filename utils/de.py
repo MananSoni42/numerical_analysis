@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from py_expression_eval import Parser
+from .lineq import Solver
 parser = Parser()
 
 sols = {
@@ -21,11 +22,36 @@ class DE(object):
         * RK of order 4
     """
 
-    def __init__(self, y_, x0, y0):
-        self.y_ = y_
-        self.y_expr = parser.parse(y_)
-        self.x0 = x0 if x0 else 0
-        self.y0 = y0
+    def __init__(self, y_):
+        if isinstance(y_, str):
+            self.y_ = y_
+            self.type = 'ivp'
+        elif isinstance(y_, list):
+            self.y_coeff = y_
+            self.y_ = f'{y_[0]}*x + {y_[1]}*y + {y_[2]}'
+            self.type = 'bvp'
+        else:
+            raise Exception(f'Could not parse input {y_}, type must be string or list')
+        self.y_expr = parser.parse(self.y_)
+
+    def init_ivp(self, x0, y0):
+        ''' Initial condition: y(x0) = y0 '''
+        if self.type == 'ivp':
+            self.x0 = x0 if x0 else 0
+            self.y0 = y0
+        else:
+            raise Exception('Trying to initialize BVP with IVP conditions')
+
+    def init_bvp(self, x0,xn, b1, b2):
+        ''' Boundary conditions:
+            b1[0]*y(x0) + b1[1]*y(x1) = b1[2]
+            b2[0]*y(x0) + b2[1]*y(x1) = b2[2]
+        '''
+        if self.type == 'bvp':
+            self.x0, self.xn = x0, xn
+            self.b1, self.b2 = b1, b2
+        else:
+            raise Exception('Trying to initialize IVP with BVP conditions')
 
     def f(self, x, y):
         return self.y_expr.evaluate({'x': x, 'y': y})
@@ -242,7 +268,7 @@ class DE(object):
                     y = y0 + (h/24) * (9*self.f(x+h,y0) + 19*self.f(x,y) - 5*self.f(xp,yp) + self.f(xpp, ypp))
             x = x + h
 
-    def solve(self, method, interval, h=None, tol=None):
+    def solve_ivp(self, method, interval, h=None, tol=None):
         method = method.lower()
 
         if (interval[1] <= interval[0]):
@@ -280,6 +306,22 @@ class DE(object):
         else:
             raise Exception(f'Method `{method}` not implemented')
 
+    def solve_bvp(self, h):
+        xs = np.arange(self.x0, self.xn+h, h)
+        n = len(xs)
+        A = np.zeros((n,n))
+        b = np.zeros((n,1))
+
+        A[0,0], A[0,-1], b[0] = self.b1[0], self.b1[1], self.b1[2]
+        A[-1,0], A[-1,-1], b[-1] = self.b2[0], self.b2[1], self.b2[2]
+
+        for i in range(1,n-1):
+            A[i,i-1], A[i,i], A[i,i+1] = -0.5/h, -self.y_coeff[1], 0.5/h
+            b[i] = self.y_coeff[0]*xs[i] + self.y_coeff[2]
+
+        lineq = Solver(A,b)
+        ans = lineq.gauss_elim().T[0].tolist()
+        self.ans = [ { 'x': xs[i], 'y': ans[i] } for i in range(len(xs)) ]
 
     def visualize(self, exact_sol=None):
         x = [val['x'] for val in self.ans]
@@ -292,6 +334,7 @@ class DE(object):
             ys = [exact_sol(x_) for x_ in x]
             plt.plot(x, ys, c='y', zorder=2, label='exact solution')
             plt.scatter(x, ys, c='k', zorder=3)
-        plt.scatter(self.x0, self.y0, c='k', zorder=3)
+        if self.type == 'ivp':
+            plt.scatter(self.x0, self.y0, c='k', zorder=3)
         plt.legend(loc="upper left")
         plt.show()
