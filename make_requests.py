@@ -68,8 +68,9 @@ def send_de_request(eq, ex_num=None):
     x,y = eq.sol
     return {
         'error': False,
+        'type': eq.type,
         'f': [{'x': x[i], 'y': round(y[i],3)} for i in range(len(x))],
         'y_': eq.y_,
-        'init': {'x': eq.x0, 'y': eq.y0},
+        'init': eq.init_cond,
         'exact': [{'x': x[i], 'y': sols[ex_num](x[i])} for i in range(len(x))] if ex_num else []
     }

@@ -133,8 +133,16 @@ $("#params").submit(function(e) {
                    $("#qeq").html("$$ y' = " + response['y_'] + "$$")
                    MathJax.Hub.Queue(["Typeset", MathJax.Hub, 'qjax']);
 
-                   $("#qy0").html(response['init']['y'])
-                   $("#qx0").html(response['init']['x'])
+                   if (response['type'] == 'ivp') {
+                       $("#qy0").html(response['init']['y'])
+                       $("#qx0").html(response['init']['x'])
+                   } else {
+                       $("#qx0").html(response['init']['x0'])
+                       $("#qxn").html(response['init']['xn'])
+                       $("#qb0").html(response['init']['b'][0])
+                       $("#qb1").html(response['init']['b'][1])
+                       $("#qb2").html(response['init']['b'][2])
+                   }
                }
            },
     });

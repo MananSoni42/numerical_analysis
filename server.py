@@ -179,7 +179,12 @@ def integrate():
 @app.route('/api/de', methods=['POST'])
 def solve_de():
     try:
-        f = request.form['f']
+        type = request.form['type']
+        if type == 'ivp':
+            f = request.form['f']
+        else:
+            a,b,c = float(request.form['a']), float(request.form['b']), float(request.form['c'])
+
         from_ = float(request.form['from'])
         to_ = float(request.form['to'])
 
@@ -191,23 +196,37 @@ def solve_de():
             tol = float(request.form['tol'])
         except:
             tol = None
-        x0 = float(request.form['x0'])
-        y0 = float(request.form['y0'])
-        method = request.form['method']
+
+        if type == 'ivp':
+            x0 = float(request.form['x0'])
+            y0 = float(request.form['y0'])
+            method = request.form['method']
+        else:
+            b0, b1, b2 = float(request.form['b-0']), float(request.form['b-1']), float(request.form['b-2'])
+
         try:
             ex_num = request.form['example'].split(",")[0]
         except:
             ex_num = None
+
     except Exception as e:
         return send_error(f'Invalid input data')
 
     try:
-        eq = DE(f, x0, y0)
+        if type == 'ivp':
+            eq = DE(f)
+            eq.init_ivp(x0=x0, y0=y0)
+        else:
+            eq = DE([a,b,c])
+            eq.init_bvp(x0=from_, xn=to_, boundary=[b0,b1,b2])
     except Exception as e:
         return send_error(f'Error while initializing: {str(e)}')
 
     try:
-        eq.solve(method=method, interval=(from_, to_), h=h, tol=tol)
+        if type == 'ivp':
+            eq.solve_ivp(method=method, interval=(from_, to_), h=h, tol=tol)
+        else:
+            eq.solve_bvp(h=h)
     except Exception as e:
         return send_error(f'Error while calculating: {str(e)}')
 
