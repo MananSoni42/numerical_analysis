@@ -28,14 +28,15 @@ All the libraries have a uniform calling style:
 * Visualize the answer using ```C.visualize()```
 * An example for each module is given files: ```example-<module>-<name>.py```
 
-| Module | Class ```C```   | ```method()```   |
-|--------|-----------------|------------------|
-| 1      | F               | find_zeroes()     |
-| 2      | Solver          | find_solution()   |
-| 3      | Points          | interpolate()    |
-| 4      | Diff_F           | differentiate()   |
-| 5      | Int_F           | integrate()      |
-| 6      | DE              | solve()          |
+| Module | Class ```C```   | ```method()```          |
+|--------|-----------------|-------------------------|
+| 1      | F               | find_zeroes()            |
+| 2      | Solver          | find_solution()          |
+| 3      | Points          | interpolate()           |
+| 4      | Diff_F           | differentiate()          |
+| 5      | Int_F           | integrate()             |
+| 6      | DE (IVP)        | init_ivp(), solve_ivp() |
+| 6      | DE (BVP)        | init_bvp(), solve_bvp() |
 
 ## 1. Finding zeroes
 - Use this module to find zeroes for any function you like!
@@ -99,8 +100,8 @@ All the libraries have a uniform calling style:
 - **method** (string):  one of ["trap", "simp", "simp_3/8", "gauss_legendre"]
     Method to use
     - **"trap":** Use the trapezoid rule
-    - **"simp":** Use Simpson's rule (requires 2k+1 points)
-    - **"simp":** Use Simpson's 3/8 rule (requires 3k+1 points)
+    - **"simp":** Use Simpson's rule (requires **2k+1** points)
+    - **"simp":** Use Simpson's 3/8 rule (requires **3k+1** points)
     - **"gauss_legendre":** Use the Gauss Legendre method
 - **from_** (float): Point from which to integrate
 - **to_** (float): Point till which to integrate
@@ -111,8 +112,47 @@ All the libraries have a uniform calling style:
 - visualizations available
 - A working example is provdided in ```example-6-diff-eq.py```
 
-### Parameters:
-- TODO
+### 6.1 Initial Value Problems
+- solve any first order Initial Value problems
+- The initial conditions need to be specified using the ```init_ivp()``` method
+- It is solved using the ```solve_ivp()``` method
+- A working example is provdided in ```example-6-diff-eq-ivp.py```
+
+#### Parameters:
+- **method** (string):  one of ['euler', 'modified-euler', 'adaptive-euler', 'runge-kutta-4', 'adam-bashforth-2', 'adam-bashforth-3', 'adam-bashforth-4', 'adam-bashforth-pc', 'milne-pc', 'adam-milne-pc']
+    Method to use for numerical solutions
+	- Single step methods:
+		- **"euler":** Euler's method (equivalent to a first order Taylor series approximation)
+		- **"modified-euler":** Modified euler's method (equivalent to Runge Kutta of order 2)
+		- **"runge-kutta-4":** 4th order Runge Kutta method (the best single step method of those implemented)
+		- **"adaptive-euler":** An adaptive version of Modified euler's method that sets the step size `h` automatically according to the specified tolerance (`tol` parameter)
+		> **NOTE**: The tolerance parameter indicates the local truncation error
+
+	- multi step methods (explicit):
+		- **"adam-bashforth-2":** 2nd order adam-bashforth method (Uses a 1st order polynomial for approximations)
+		- **"adam-bashforth-3":** 3nd order adam-bashforth method (Uses a 2st order polynomial for approximations)
+		- **"adam-bashforth-4":** 4nd order adam-bashforth method (Uses a 3rd order polynomial for approximations)
+	> **NOTE**: All initial points required for the polynomials are approximated using Euler's method
+
+	- Predictor corrector methods:
+		- **"adam-bashforth-pc":** Uses 4th order adam-bashforth polynomials for the predictor and corrector
+		- **"milne-pc":** Uses 4th order milne polynomials for the predictor and corrector
+		- **"adam-bashforth-pc":** Uses 4th order adam-bashforth polynomials for the predictor and corrector, applies the predictor repeatedly till convergence (requires a `tol` parameter)
+		> **NOTE**: The tolerance parameter indicates the convergence criterion for the predictor equation
+
+- **h** (float): Step size to use
+- **tols** (float): A tolerance parameter, only used in `adaptive-euler` and `adam-milne-pc`
+- **interval** (tuple): The interval in which to solve
+> **NOTE**: The left endpoint of the interval must be same as x0 ( from the initial condition )
+
+### 6.2 Boundary Value Problems
+- solve any *linear* first order Boundary Value problem
+- The initial conditions need to be specified using the ```init_bvp()``` method
+- It is solved using the ```solve_bvp()``` method
+- A working example is provdided in ```example-6-diff-eq-bvp.py```
+
+#### Parameters:
+- None
 
 ## Installing locally
 This project requires python (3.7+)
