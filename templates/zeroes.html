@@ -3,10 +3,19 @@
 {% block content %}
     <div class="row bg-dark text-light text-center mx-5 my-2 p-3">
         <div class="col-12">
-            Solve f(x) = 0 for an arbitrary function (requires an initial guess or an interval containing a zero)
+            <div class="row">
+                <div class="col-12">
+                    Solve the equation f(x) = 0 for an arbitrary function f(x)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <small>requires an initial guess / an interval containing a zero</small>
+                </div>
+            </div>
         </div>
     </div>
-    
+
     <div class="row text-center mx-5 my-2">
         <div class="col-lg-3 bg-dark text-light py-2">
             <span class="text-center font-weight-bold">Options</span>
@@ -30,7 +39,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-8 col-form-label text-left">Initial parameters (comma seperated numbers)</label>
+                    <label class="col-sm-8 col-form-label text-left">Initial guess / interval <small>(comma seperated numbers)</small></label>
                     <div class="col-sm-4 my-auto">
                       <input type="text" class="form-control" id="initial" name="initial">
                     </div>
@@ -53,7 +62,7 @@
                         </select>
                     </div>
                 </div>
-                <button class="btn btn-primary" type="submit">Find</button>
+                <button class="btn btn-primary" type="submit">Find a zero</button>
             </form>
         </div>
         <div class="col-lg-6 bg-light">

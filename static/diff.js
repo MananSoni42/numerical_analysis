@@ -2,8 +2,10 @@ const range = (start, stop, step = 1) =>
   Array(Math.ceil((stop - start) / step)).fill(start).map((x, y) => x + y * step)
 
 function chart2_label(val) {
-    chart2.data.datasets[0].label = `f^(${val})(x0)`;
-    chart2.data.datasets[0].label = `f^(${val})(x)`;
+    s = "";
+    for (i=0;i<val;i++) { s += "'"; }
+    chart2.data.datasets[0].label = `f${s}(x0)`;
+    chart2.data.datasets[1].label = `f${s}(x)`;
     chart2.update();
 }
 
@@ -56,7 +58,7 @@ var chart2 = new Chart(ctx2, {
     type: 'line',
     data: {
         datasets: [{
-            label: `f^(1)(x0)`,
+            label: `f'(x0)`,
             data: [
                   {'x': 2, 'y': 1.778 }
               ],
@@ -64,7 +66,7 @@ var chart2 = new Chart(ctx2, {
             fill: false,
             radius: 5,
         }, {
-            label: `f^(1)(x)`,
+            label: `f'(x)`,
             data: [
                   {'x': 0, 'y': 10,               },
                   {'x': 1, 'y': 4.239999999994762 },

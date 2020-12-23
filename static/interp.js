@@ -13,8 +13,8 @@ function make_form(n) {
     form += `
     <div class="form-group row mb-0 mt-3">
         <label class="col-4 col-form-label text-center">x</label>
-        <label class="col-4 col-form-label text-center">f(x)</label>
-        <label class="col-4 col-form-label text-center">f'(x) <small> optional <small></label>
+        <label class="col-4 col-form-label text-center">y</label>
+        <label class="col-4 col-form-label text-center">y'<small> <br> (optional) <small></label>
     </div>
     `;
 
@@ -177,7 +177,7 @@ $("#params").submit(function(e) {
                    chart1.data.datasets[1].data = response['poly']
                    chart1.update()
                    console.log(response['lagrange']);
-                   console.log(response['newton']);                   
+                   console.log(response['newton']);
                    $('#sol_lagrange').html(make_special(response['lagrange'], 'L'))
                    $('#sol_newton').html(make_special(response['newton'], 'N'))
                    $('#sol_simple').html(make_poly(response['simple']))

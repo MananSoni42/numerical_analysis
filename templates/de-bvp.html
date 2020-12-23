@@ -3,7 +3,16 @@
 {% block content %}
     <div class="row bg-dark text-light text-center mx-5 my-2 p-3">
         <div class="col-12">
-            Solve any first order differential equation
+            <div class="row">
+                <div class="col-12">
+                    Solve any first order Differential Equation
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <small>requires the step size 'h'</small>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row text-center mx-5 my-2">
@@ -73,13 +82,13 @@
                       <input type="text" class="form-control" id="h" name="h">
                     </div>
                 </div>
-                <button class="btn btn-primary" type="submit">Find</button>
+                <button class="btn btn-primary" type="submit">Solve</button>
             </form>
             <hr class="bg-light mt-1">
             <div class="row mt-3">
                 <div class="col-12" id="qjax">
                     Solution of <span class="text-warning" id="qeq">-</span>
-                    with boundary conditions <span class="text-warning" id="qb0">0</span>*y(<span class="text-warning" id="qx0">-</span>) + <span class="text-warning" id="qb1">0</span>*y(<span class="text-warning" id="qxn">-</span>) = <span class="text-warning" id="qb2">0</span>
+                    with boundary conditions <span class="text-warning" id="qb0">0</span> y(<span class="text-warning" id="qx0">-</span>) + <span class="text-warning" id="qb1">0</span> y(<span class="text-warning" id="qxn">-</span>) = <span class="text-warning" id="qb2">0</span>
                 </div>
             </div>
         </div>

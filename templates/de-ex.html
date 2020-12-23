@@ -3,9 +3,19 @@
 {% block content %}
     <div class="row bg-dark text-light text-center mx-5 my-2 p-3">
         <div class="col-12">
-            Examples to show numerical stability / instability of the implemented numerical algorithms
+            <div class="row">
+                <div class="col-12">
+                    Solve any first order Differential Equation
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <small>Examples to show the numerical stability / instability of some of the implemented numerical algorithms</small>
+                </div>
+            </div>
         </div>
     </div>
+
     <div class="row text-center mx-5 my-2">
         <div class="col-4 bg-dark text-light py-2">
             <a class="btn btn-large btn-light text-dark" href="{{ url_for('de_ivp') }}">
@@ -28,7 +38,7 @@
             <span class="text-center font-weight-bold">Examples</span>
             <hr class="bg-light mt-1">
             <form class="p-2" id="params">
-                <input type="hidden" id="type" name="type" value="ivp">                
+                <input type="hidden" id="type" name="type" value="ivp">
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label text-left">Example </label>
                     <div class="col-sm-8">

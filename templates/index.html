@@ -1,7 +1,11 @@
 {% extends "super.html" %}
 
+{% block header %}
+<link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+{% endblock %}
+
 {% block content %}
-    <div class="row ">
+    <div class="row bg-transparent">
         <div class="col-1"></div>
         <div class="col-10 bg-dark text-warning text-center rounded m-1 mt-3 p-3">
             <h2>Implementation and Visualization of Numerical Algorithms</h2>
@@ -13,26 +17,37 @@
         <div class="col-10 bg-light text-center rounded m-1 p-3">
             <div class="row">
                 <div class="col-12">
-                    <p>
-                        Numerical Analysis is the area of Mathematics that deals with creating, analyzing and studying
-                        Mathematical problems with the help of computers. It has a wide variety of
-                        real-world applications throughout the natural sciences, engineering, medicine,
-                        and even in business.
+                    <p class="font-weight-bold display-5">
+                        &ldquo; The purpose of computing is insight, not numbers &ldquo; <br>
+                        - Richard Hamming
                     </p>
                     <p>
-                        The aim of this website is to provide a simple and easy to use interface along with
-                        useful visualiazations to some common Numerical Analysis algorithms that are accessible
-                        to everyone without skimming over the important technical details. The motivation being
-                        that Numerical Analysis is a subject at the intersection of Mathematics and Computer
-                        Science and its beauty should not be lost in hand-calculations.
-                    </p>
-                    <p>
-                        The website is divided into 6 main modules which can be accessed using the navigation bar above.
-                        Each module is independant and self-contained. Each module solves a different problem and a simple
-                        description (in layman terms) is provided at the begining of each module as well.
+                        Numerical Analysis is an area of Mathematics and Computer Science that is almost as old as
+                        computers themselves! It is concerned with all aspects of the numerical solution of a problem,
+                        from the theoretical development and understanding of numerical methods to their
+                        practical implementation as reliable and efficient computer programs. <br>
+                        It naturally finds application in all fields of engineering and the physical sciences,
+                        but in the 21st century also the life sciences, social sciences, medicine, business and
+                        even the arts have adopted elements of scientific computations.
                     </p>
                 </div>
             </div>
+        </div>
+        <div class="col-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10 bg-light text-center rounded m-1 p-3">
+            <p>
+                The aim of this website is to provide a simple and easy to use interface that offers
+                useful visualiazations to some common problems in Numerical Analysis. These problems
+                are (generally) taught in an undergraduate course in Numerical Analysis.
+            </p>
+            <p>
+                The website is divided into 6 main modules which can be accessed using the navigation bar above.
+                Each module is independant and self-contained. Each module solves a different problem and a simple
+                description (in layman terms) is provided at the begining of each module as well.
+            </p>
         </div>
         <div class="col-1"></div>
     </div>
@@ -46,16 +61,13 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    The code is licensed under the <a href="https://github.com/MananSoni42/numerical_analysis/blob/master/LICENSE">MIT license</a> and is completely open source (available over
-                    <a href="https://github.com/MananSoni42/numerical_analysis">here</a>).
+                    The code is completely open source and licensed under the <a href="https://github.com/MananSoni42/numerical_analysis/blob/master/LICENSE">MIT</a> license
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
-                    If you find any errors / want to add features / would like to contribute to this project,
-                    head over to the <a href="https://github.com/MananSoni42/numerical_analysis">repository</a>
-                    and submit a pull request or you can
-                    <a href="mailto:f20170495@pilani.bits-pilani.ac.in">mail</a> me
+                    For technical details and documentation, have a look at the <a href="https://github.com/MananSoni42/numerical_analysis">repository</a> <br>
+                    Want to know more? check out the <a href="#">blog post</a> <br>
                 </div>
             </div>
         </div>
@@ -64,7 +76,8 @@
     <div class="row">
         <div class="col-1"></div>
         <div class="col-10 bg-light text-center rounded m-1 p-3">
-            Written by Manan Soni (2017B4A70495P)
+            - Manan Soni (manansoni1399@gmail.com)<br>
+
         </div>
         <div class="col-1"></div>
     </div>

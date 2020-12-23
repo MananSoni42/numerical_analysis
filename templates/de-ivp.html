@@ -3,9 +3,19 @@
 {% block content %}
     <div class="row bg-dark text-light text-center mx-5 my-2 p-3">
         <div class="col-12">
-            Solve any first order Differential Equation
+            <div class="row">
+                <div class="col-12">
+                    Solve any first order Differential Equation
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <small>requires the step size 'h' and/or a tolerance 'tol'</small>
+                </div>
+            </div>
         </div>
     </div>
+
     <div class="row text-center mx-5 my-2">
         <div class="col-4 bg-dark text-light py-2">
             <a class="btn btn-large btn-warning text-dark" href="{{ url_for('de_ivp') }}">
@@ -84,7 +94,7 @@
                         </select>
                     </div>
                 </div>
-                <button class="btn btn-primary" type="submit">Find</button>
+                <button class="btn btn-primary" type="submit">Solve</button>
             </form>
             <hr class="bg-light mt-1">
             <div class="row mt-3">
