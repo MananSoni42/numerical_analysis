@@ -9,15 +9,24 @@ This repository contains visualizations for the course Numerical Analysis (MATH 
 ## Table of contents
 
 * [Usage](#usage)
-* [1. Finding zeroes](#1-finding-zeroes)
-* [2. Solving linear equations](#2-solving-linear-equations)
-* [3. Polynomial interpolation](#3-polynomial-interpolation)
-* [4. Numerical Differentiation](#4-numerical-differentiation)
-* [5. Numerical Integration](#5-numerical-integration)
-* [6. Solving Differential Equations](#6-solving-differential-equations)
+* [Screens](#screens)
+* Docs
+	* [1. Finding zeroes](#1-finding-zeroes)
+	* [2. Solving linear equations](#2-solving-linear-equations)
+	* [3. Polynomial interpolation](#3-polynomial-interpolation)
+	* [4. Numerical Differentiation](#4-numerical-differentiation)
+	* [5. Numerical Integration](#5-numerical-integration)
+	* [6. Solving Differential Equations](#6-solving-differential-equations)
 * [Installing locally](#installing-locally)
 * [Contributing](#contributing)
 * [License](#license)
+
+## Screens
+![Finding zeroes using Newton's method](assets/num-al-zero-1.png)
+![Finding zeroes using the Bisection method](assets/num-al-zero-2.png)
+![Integration example](assets/num-al-int.png)
+![Interpolation example](assets/num-al-interp.png)
+![DE example](assets/num-al-de.png)
 
 ## Usage
 
@@ -37,6 +46,9 @@ All the libraries have a uniform calling style:
 | 5      | Int_F           | integrate()             |
 | 6      | DE (IVP)        | init_ivp(), solve_ivp() |
 | 6      | DE (BVP)        | init_bvp(), solve_bvp() |
+
+
+# Docs
 
 ## 1. Finding zeroes
 - Use this module to find zeroes for any function you like!
