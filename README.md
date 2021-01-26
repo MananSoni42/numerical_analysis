@@ -6,6 +6,8 @@ This repository contains visualizations for the course Numerical Analysis (MATH 
 > 1. An interactive website (with limited functionality): [na-bits.herokuapp.com](http://na-bits.herokuapp.com/)
 > 2. A Python API (with complete functionality): This repository
 
+> To know more: Read the [blog](https://manansoni42.github.io/posts/Visualizing-Numerical-Analysis/) post
+
 ## Table of contents
 
 * [Usage](#usage)
